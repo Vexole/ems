@@ -162,24 +162,26 @@ const EmployeeRow = props => {
     employeeType,
     status
   } = props.employeeDetails;
-  return /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", null, props.index + 1), /*#__PURE__*/React.createElement("td", null, firstName), /*#__PURE__*/React.createElement("td", null, lastName), /*#__PURE__*/React.createElement("td", null, age), /*#__PURE__*/React.createElement("td", null, dateOfJoining), /*#__PURE__*/React.createElement("td", null, title), /*#__PURE__*/React.createElement("td", null, department), /*#__PURE__*/React.createElement("td", null, employeeType), /*#__PURE__*/React.createElement("td", null, status == 1 ? 'Working' : 'Retired'));
+  return /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", null, props.index + 1), /*#__PURE__*/React.createElement("td", null, firstName), /*#__PURE__*/React.createElement("td", null, lastName), /*#__PURE__*/React.createElement("td", null, age), /*#__PURE__*/React.createElement("td", null, dateOfJoining), /*#__PURE__*/React.createElement("td", null, title), /*#__PURE__*/React.createElement("td", null, department), /*#__PURE__*/React.createElement("td", null, employeeType.split(/\.?(?=[A-Z])/).join('-')), /*#__PURE__*/React.createElement("td", null, status == 1 ? 'Working' : 'Retired'));
 };
-const EmployeeTable = props => {
-  const employeesList = props.employeesList.map((employees, index) => /*#__PURE__*/React.createElement(EmployeeRow, {
-    employeeDetails: employees,
-    key: employees.id,
-    index: index
-  }));
-  return /*#__PURE__*/React.createElement("section", {
-    id: "employee-list-container"
-  }, /*#__PURE__*/React.createElement("h1", {
-    className: "section-header"
-  }, "Employees List"), /*#__PURE__*/React.createElement(EmployeeSearch, {
-    handleEmployeeFilter: (key, value) => props.handleEmployeeFilter(key, value)
-  }), /*#__PURE__*/React.createElement("table", {
-    className: "employees-list"
-  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "S.N."), /*#__PURE__*/React.createElement("th", null, "First Name"), /*#__PURE__*/React.createElement("th", null, "Last Name"), /*#__PURE__*/React.createElement("th", null, "Age"), /*#__PURE__*/React.createElement("th", null, "Date of Joining"), /*#__PURE__*/React.createElement("th", null, "Title"), /*#__PURE__*/React.createElement("th", null, "Department"), /*#__PURE__*/React.createElement("th", null, "Employee Type"), /*#__PURE__*/React.createElement("th", null, "Current Status"))), /*#__PURE__*/React.createElement("tbody", null, employeesList)));
-};
+class EmployeeTable extends React.Component {
+  render() {
+    const employeesList = this.props.employeesList.map((employees, index) => /*#__PURE__*/React.createElement(EmployeeRow, {
+      employeeDetails: employees,
+      key: employees.id,
+      index: index
+    }));
+    return /*#__PURE__*/React.createElement("section", {
+      id: "employee-list-container"
+    }, /*#__PURE__*/React.createElement("h1", {
+      className: "section-header"
+    }, "Employees List"), /*#__PURE__*/React.createElement(EmployeeSearch, {
+      handleEmployeeFilter: (key, value) => this.props.handleEmployeeFilter(key, value)
+    }), /*#__PURE__*/React.createElement("table", {
+      className: "employees-list"
+    }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "S.N."), /*#__PURE__*/React.createElement("th", null, "First Name"), /*#__PURE__*/React.createElement("th", null, "Last Name"), /*#__PURE__*/React.createElement("th", null, "Age"), /*#__PURE__*/React.createElement("th", null, "Date of Joining"), /*#__PURE__*/React.createElement("th", null, "Title"), /*#__PURE__*/React.createElement("th", null, "Department"), /*#__PURE__*/React.createElement("th", null, "Employee Type"), /*#__PURE__*/React.createElement("th", null, "Current Status"))), /*#__PURE__*/React.createElement("tbody", null, employeesList)));
+  }
+}
 class EmployeeSearch extends React.Component {
   filterEmployeeList(e) {
     e.preventDefault();

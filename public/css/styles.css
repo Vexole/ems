@@ -62,6 +62,12 @@ select {
   padding: 0 5px;
 }
 
+input[type="submit"] {
+  background-color: #004689;
+  color: #ffffff;
+  border-radius: 5px;
+}
+
 fieldset {
   border: 1px solid #c0c0c0;
 }
@@ -167,6 +173,18 @@ fieldset {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.admin_hero {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url('../images/ems.jpg') no-repeat center center;
+  background-size: cover;
+}
+
+.hero_header h1 {
+  padding: 50px;
+  background-color: rgba(0, 0, 0, 0.8);
+  font-size: 2rem !important;
 }
 
 footer {
@@ -285,6 +303,7 @@ footer a {
   padding: 48px 0;
   background-color: azure;
   margin: auto;
+  min-height: 75vh;
 }
 
 .employees-list {
@@ -327,7 +346,7 @@ footer a {
 
 @media screen and (min-width: 768px) {
   .hero {
-    height: 70vh;
+    height: 95vh;
   }
 
   footer hr {

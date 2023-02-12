@@ -153,45 +153,51 @@ const EmployeeRow = (props) => {
       <td>{dateOfJoining}</td>
       <td>{title}</td>
       <td>{department}</td>
-      <td>{employeeType}</td>
+      <td>{employeeType.split(/\.?(?=[A-Z])/).join('-')}</td>
       <td>{status == 1 ? 'Working' : 'Retired'}</td>
     </tr>
   );
 };
 
-const EmployeeTable = (props) => {
-  const employeesList = props.employeesList.map((employees, index) => (
-    <EmployeeRow employeeDetails={employees} key={employees.id} index={index} />
-  ));
-
-  return (
-    <section id="employee-list-container">
-      <h1 className="section-header">Employees List</h1>
-      <EmployeeSearch
-        handleEmployeeFilter={(key, value) =>
-          props.handleEmployeeFilter(key, value)
-        }
+class EmployeeTable extends React.Component {
+  render() {
+    const employeesList = this.props.employeesList.map((employees, index) => (
+      <EmployeeRow
+        employeeDetails={employees}
+        key={employees.id}
+        index={index}
       />
+    ));
 
-      <table className="employees-list">
-        <thead>
-          <tr>
-            <th>S.N.</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Age</th>
-            <th>Date of Joining</th>
-            <th>Title</th>
-            <th>Department</th>
-            <th>Employee Type</th>
-            <th>Current Status</th>
-          </tr>
-        </thead>
-        <tbody>{employeesList}</tbody>
-      </table>
-    </section>
-  );
-};
+    return (
+      <section id="employee-list-container">
+        <h1 className="section-header">Employees List</h1>
+        <EmployeeSearch
+          handleEmployeeFilter={(key, value) =>
+            this.props.handleEmployeeFilter(key, value)
+          }
+        />
+
+        <table className="employees-list">
+          <thead>
+            <tr>
+              <th>S.N.</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Age</th>
+              <th>Date of Joining</th>
+              <th>Title</th>
+              <th>Department</th>
+              <th>Employee Type</th>
+              <th>Current Status</th>
+            </tr>
+          </thead>
+          <tbody>{employeesList}</tbody>
+        </table>
+      </section>
+    );
+  }
+}
 
 class EmployeeSearch extends React.Component {
   filterEmployeeList(e) {

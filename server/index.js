@@ -1,12 +1,11 @@
+require('dotenv').config();
+
 const express = require('express');
 const mongoose = require('mongoose');
 const fs = require('fs');
 const { ApolloServer } = require('apollo-server-express');
 const { GraphQLScalarType } = require('graphql');
 const { seedData, insertUser, getUsersList } = require('./db');
-
-const URL =
-  'mongodb+srv://bshrestha:03Md5BsmF2IiCGO9@cluster0.fm67amd.mongodb.net/ems';
 
 const GraphQLDate = new GraphQLScalarType({
   name: 'GraphQLDate',
@@ -53,7 +52,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 mongoose.set('strictQuery', false);
-mongoose.connect(URL, { useNewUrlParser: true });
+mongoose.connect(process.env.MONGO_DB_URL, { useNewUrlParser: true });
 
 server.start().then((res) => {
   server.applyMiddleware({ app, path: '/graphql' });
