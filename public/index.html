@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Employee Management System</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <link rel="stylesheet" href="./css/styles.css" />
+  </head>
+  <body>
+    <section class="top-nav">
+      <div>
+        <a href="/">
+          <p class="logo">Employee Management System</p>
+        </a>
+      </div>
+      <input id="menu-toggle" type="checkbox" />
+      <label class="menu-button-container" for="menu-toggle">
+        <div class="menu-button"></div>
+      </label>
+      <ul class="menu">
+        <li><a href="/signup">REGISTER</a></li>
+        <li><a href="/login">LOGIN</a></li>
+      </ul>
+    </section>
+
+    <header class="hero register_hero" id="home">
+      <div class="hero_header">
+        <h1>Employee Management System</h1>
+      </div>
+    </header>
+    <div id="root"></div>
+    <footer>
+      <section id="footer">
+        <div class="company">
+          <a href="/" target="_blank" id="store_logo"
+            >EMPLOYEE MANAGEMENT SYSTEM</a
+          >
+          <p>An easy solution to help you manage your employees!</p>
+          <div class="social_media">
+            <h1>SOCIAL MEDIA</h1>
+            <div>
+              <a href="https://www.facebook.com/"
+                ><img src="./images/facebook.png" alt="facebook"
+              /></a>
+              <a href="https://www.instagram.com/"
+                ><img src="./images/instagram.png" alt="instagram"
+              /></a>
+              <a href="https://twitter.com/home?lang=en"
+                ><img src="./images/twitter.png" alt="twitter"
+              /></a>
+              <a href="https://www.linkedin.com/in/bhupesh-shrestha-04/"
+                ><img src="./images/linkedin.png" alt="linkedin"
+              /></a>
+            </div>
+          </div>
+        </div>
+        <hr />
+
+        <div class="quick_links">
+          <h1>Quick Links</h1>
+          <ul>
+            <li><a href="/">Reports</a></li>
+            <li><a href="/">Back Office</a></li>
+            <li><a href="/">Website</a></li>
+          </ul>
+        </div>
+        <hr />
+
+        <div class="stay_in_touch">
+          <h1>Quick Codes</h1>
+          <ul>
+            <li>1001: Support Team</li>
+            <li>1001: Need someone to cover</li>
+            <li>1002: Open another register</li>
+            <li>1003: Technical Difficulties</li>
+          </ul>
+        </div>
+        <hr />
+
+        <div class="recent_posts">
+          <h1>Recent Announcements</h1>
+          <article class="recent_post">
+            <img src="./images/rules-changes.webp" alt="recent" />
+            <h2 class="description">Changes in Rules</h2>
+            <p class="date_author">Dec 25, 2022 By Jane Doe</p>
+          </article>
+          <article class="recent_post">
+            <img
+              src="./images/effective-employee-management.jpg"
+              alt="recent"
+            />
+            <h2 class="description">Effective Management</h2>
+            <p class="date_author">Nov 22, 2022 By John Doe</p>
+          </article>
+        </div>
+      </section>
+      <p>Copyright &copy; 2023 | Employee Management System</p>
+    </footer>
+
+    <script src="./App.js"></script>
+    <script src="./js/scripts.js"></script>
+  </body>
+</html>
