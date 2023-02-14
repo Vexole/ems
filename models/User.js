@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// Model for users(employees)
 const UserSchema = mongoose.Schema({
   id: { type: Number, requried: true, unique: true },
   firstName: { type: String, required: true },

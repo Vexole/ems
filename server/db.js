@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const Counter = require('../models/Counter');
 
+// Static employees list to seed the database
 const employeesList = [
   {
     id: 1,
@@ -37,13 +38,18 @@ const employeesList = [
   },
 ];
 
+/*
+ * Start the app in the pristine state by deleting the db data.
+ * Insert the starting data in the DB
+ */
 async function seedData() {
   await User.deleteMany({});
   await Counter.deleteMany({});
   await User.insertMany(employeesList);
-  await Counter.create({ _id: 'users', current: 4 });
+  await Counter.create({ _id: 'users', current: 3 });
 }
 
+// Get the countrer from the collection, increment by one, and return the current value
 async function getNextSequence(name) {
   const result = await Counter.findOneAndUpdate(
     { _id: name },
@@ -53,6 +59,10 @@ async function getNextSequence(name) {
   return result.current;
 }
 
+/* 
+ * Get the manually generated id for the new user, insert it in the DB, and
+ * return the saved user 
+ */
 async function insertUser(user) {
   user.id = await getNextSequence('users');
   const result = await User.create(user);
@@ -60,9 +70,11 @@ async function insertUser(user) {
   return savedIssue;
 }
 
+// Get the list of all users(employees) from the DB
 async function getUsersList() {
   const issues = await User.find({});
   return issues;
 }
 
+// Exporting the functions for use in other files
 module.exports = { seedData, insertUser, getUsersList };

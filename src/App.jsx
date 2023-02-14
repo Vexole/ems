@@ -1,9 +1,17 @@
+// Regex to validate the user input
 const dateRegex = new RegExp('^\\d\\d\\d\\d-\\d\\d-\\d\\d');
+const nameRegex = new RegExp("^[A-Za-z]{3,}$");
+
+// Parse the date retrieved from the API
 function jsonDateReviver(key, value) {
   if (dateRegex.test(value)) return value.split('T')[0];
   return value;
 }
 
+/*
+ * Method to use prepared statements for API calls, and
+ * Check for errors when making the API call
+ */
 async function graphQLFetch(query, variables = {}) {
   try {
     const response = await fetch('/graphql', {
@@ -31,6 +39,7 @@ async function graphQLFetch(query, variables = {}) {
 class EmployeeCreate extends React.Component {
   createEmployee(e) {
     e.preventDefault();
+    // Get inputs from the form
     const {
       firstName,
       lastName,
@@ -42,15 +51,19 @@ class EmployeeCreate extends React.Component {
     } = document.forms.addEmployee;
 
     const employee = {
-      firstName: firstName.value,
-      lastName: lastName.value,
-      age: +age.value,
+      firstName: firstName.value.trim(),
+      lastName: lastName.value.trim(),
+      age: +age.value.trim(),
       dateOfJoining: dateOfJoining.value,
       title: title.value,
       department: department.value,
       employeeType: employeeType.value,
     };
 
+    /*
+     * If user input is not valid, show the error,
+     * Else make the API call, and reset the form
+     */
     this.props.handleResetFormErrors();
     const isFormValid = this.props.handleValidateFormData(employee);
     if (!isFormValid) return;
@@ -132,6 +145,7 @@ class EmployeeCreate extends React.Component {
   }
 }
 
+// Component to display each row for an employee
 const EmployeeRow = (props) => {
   const {
     firstName,
@@ -161,6 +175,7 @@ const EmployeeRow = (props) => {
 
 class EmployeeTable extends React.Component {
   render() {
+    // Iterate through the employees list and create components for each entry
     const employeesList = this.props.employeesList.map((employees, index) => (
       <EmployeeRow
         employeeDetails={employees}
@@ -200,12 +215,14 @@ class EmployeeTable extends React.Component {
 }
 
 class EmployeeSearch extends React.Component {
+  // Pass the entered keyword and selected parameter for search/filter
   filterEmployeeList(e) {
     e.preventDefault();
     const { filterKeyword, fitlerParameter } = document.forms.filterForm;
     this.props.handleEmployeeFilter(fitlerParameter.value, filterKeyword.value);
   }
 
+  // Reset the search input field when dropdown value changes
   resetForm(e) {
     const { filterKeyword, fitlerParameter } = document.forms.filterForm;
     filterKeyword.value = '';
@@ -245,6 +262,7 @@ class EmployeeSearch extends React.Component {
 }
 
 class EmployeeDirectory extends React.Component {
+  // Define the initial state of the application
   constructor() {
     super();
     this.state = {
@@ -256,6 +274,7 @@ class EmployeeDirectory extends React.Component {
     };
   }
 
+  // GraphQL query to retrieve the employees list, and update the state
   async getEmployeesList() {
     const query = `query {
       employeesList {
@@ -273,6 +292,7 @@ class EmployeeDirectory extends React.Component {
     }
   }
 
+  // GraphQL mutation query to save an employee, and refresh the employees list
   async saveEmployee(employee) {
     const query = `mutation saveEmployee($employee: UserInput!) {
       saveEmployee(employee: $employee) {
@@ -286,70 +306,76 @@ class EmployeeDirectory extends React.Component {
     }
   }
 
+  // Get the employees list from the DB after the component has been mounted
   componentDidMount() {
     this.getEmployeesList();
   }
 
+  // Save the employee, change the state, and scroll the page
   createEmployee(employee) {
     this.saveEmployee(employee);
     this.setState((prev) => ({
       ...prev,
       hasErrors: false,
     }));
+    $("html, body").animate({ scrollTop: 700 }, "slow");
   }
 
+  // Change the status of the form to pristine
   resetFormErrors() {
     this.setState({ hasErrors: false, formErrors: {} });
   }
 
+  // Common function to set the error message.
+  setError(field, message = 'This field is required') {
+    this.setState((prev) => ({
+      formErrors: { ...prev.formErrors, [field]: message },
+      hasErrors: true,
+    }));
+  }
+
+  // Validate the user entered inputs, and set error messages if exists
   validateFormData({ firstName, lastName, age, dateOfJoining }) {
     let isFormValid = true;
+
     if (!firstName) {
       isFormValid = false;
-      this.setState((prev) => ({
-        formErrors: { ...prev.formErrors, firstName: 'This field is required' },
-        hasErrors: true,
-      }));
+      this.setError('firstName');
+    } else if (!nameRegex.test(firstName)) {
+      isFormValid = false;
+      this.setError(
+        'firstName',
+        'Must be at least 3 characters. Cannot contain number, space or special characters'
+      );
     }
 
     if (!lastName) {
       isFormValid = false;
-      this.setState((prev) => ({
-        formErrors: { ...prev.formErrors, lastName: 'This field is required' },
-        hasErrors: true,
-      }));
+      this.setError('lastName');
+    } else if (!nameRegex.test(lastName)) {
+      isFormValid = false;
+      this.setError(
+        'lastName',
+        'Must be at least 3 characters. Cannot contain number, space or special characters'
+      );
     }
 
     if (!age) {
       isFormValid = false;
-      this.setState((prev) => ({
-        formErrors: { ...prev.formErrors, age: 'This field is required' },
-        hasErrors: true,
-      }));
-    } else if (age < 20 || age > 70) {
+      this.setError('age');
+    } else if (isNaN(age) || age < 20 || age > 70) {
       isFormValid = false;
-      this.setState((prev) => ({
-        formErrors: {
-          ...prev.formErrors,
-          age: 'Age must be between 20 and 70',
-        },
-        hasErrors: true,
-      }));
+      this.setError('age', 'Age must be between 20 and 70');
     }
 
     if (!dateOfJoining) {
       isFormValid = false;
-      this.setState((prev) => ({
-        formErrors: {
-          ...prev.formErrors,
-          dateOfJoining: 'This field is required',
-        },
-        hasErrors: true,
-      }));
+      this.setError('dateOfJoining');
     }
     return isFormValid;
   }
 
+  // Filter the employee list based on the parameter and keyword
   filterEmployeeList(keyword, value) {
     if (!value) {
       this.setState({ tempEmployeeList: this.state.employeesList });

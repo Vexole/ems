@@ -7,6 +7,7 @@ const { ApolloServer } = require('apollo-server-express');
 const { GraphQLScalarType } = require('graphql');
 const { seedData, insertUser, getUsersList } = require('./db');
 
+// Scalar type date defined with the serialize and parse methods
 const GraphQLDate = new GraphQLScalarType({
   name: 'GraphQLDate',
   description: 'A Date() type in GraphQL as a scalar',
@@ -25,15 +26,18 @@ const GraphQLDate = new GraphQLScalarType({
   },
 });
 
+// Get employees list from the DB
 async function employeesList() {
   return await getUsersList();
 }
 
+// Save an employee details to the DB
 async function saveEmployee(_, { employee }) {
   const savedEmployee = await insertUser(employee);
   return savedEmployee;
 }
 
+// Resolvers to retrieve the employees list and save an employee
 const resolvers = {
   Query: {
     employeesList,
@@ -42,11 +46,17 @@ const resolvers = {
     saveEmployee,
   },
 };
+
+// Configure the ApolloServer by reading the typeDefs from the schema.graphql file
 const server = new ApolloServer({
   typeDefs: fs.readFileSync('./server/schema.graphql', 'utf-8'),
   resolvers,
 });
 
+/*
+ * Instantiate the express app, and configure the middleware for it, and
+ * Make connection to the MongoDB
+ */
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -54,18 +64,23 @@ app.use(express.static('public'));
 mongoose.set('strictQuery', false);
 mongoose.connect(process.env.MONGO_DB_URL, { useNewUrlParser: true });
 
+/*
+ * Start the GraphQL server, apply the middleware, and seed the database with
+ * default dummy values
+ */
 server.start().then((res) => {
   server.applyMiddleware({ app, path: '/graphql' });
+  app.listen({ port: 4000 }, async () => {
+    console.log(`GraphQL started on port 4000`);
+    try {
+      await seedData();
+    } catch (err) {
+      console.log('ERROR:', err);
+    }
+  });
 });
 
-const PORT = 4000;
-(async function () {
-  try {
-    await seedData();
-    app.listen(PORT, function () {
-      console.log('App started on port 3000');
-    });
-  } catch (err) {
-    console.log('ERROR:', err);
-  }
-})();
+const PORT = 3000;
+app.listen(PORT, function () {
+  console.log(`App started on port ${PORT}`);
+});
