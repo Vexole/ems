@@ -1,6 +1,6 @@
 // Regex to validate the user input
 const dateRegex = new RegExp('^\\d\\d\\d\\d-\\d\\d-\\d\\d');
-const nameRegex = new RegExp("^[A-Za-z]{3,}$");
+const nameRegex = new RegExp('^[A-Za-z]{3,}$');
 
 // Parse the date retrieved from the API
 function jsonDateReviver(key, value) {
@@ -37,6 +37,10 @@ async function graphQLFetch(query, variables = {}) {
 }
 
 class EmployeeCreate extends React.Component {
+  constructor() {
+    this.createEmployee = this.createEmployee.bind(this);
+  }
+
   createEmployee(e) {
     e.preventDefault();
     // Get inputs from the form
@@ -78,7 +82,7 @@ class EmployeeCreate extends React.Component {
         <h1 className="section-header">Add a New Employee</h1>
         <form
           name="addEmployee"
-          onSubmit={this.createEmployee.bind(this)}
+          onSubmit={this.createEmployee}
           className="add-employee-form"
         >
           <label htmlFor="firstName">First Name</label>
@@ -215,6 +219,11 @@ class EmployeeTable extends React.Component {
 }
 
 class EmployeeSearch extends React.Component {
+  constructor() {
+    this.filterEmployeeList = this.filterEmployeeList.bind(this);
+    this.resetForm = this.resetForm.bind(this);
+  }
+
   // Pass the entered keyword and selected parameter for search/filter
   filterEmployeeList(e) {
     e.preventDefault();
@@ -236,12 +245,12 @@ class EmployeeSearch extends React.Component {
         <form
           className="filter-form"
           name="filterForm"
-          onSubmit={this.filterEmployeeList.bind(this)}
+          onSubmit={this.filterEmployeeList}
         >
           <select
             name="fitlerParameter"
             id="fitlerParameter"
-            onChange={this.resetForm.bind(this)}
+            onChange={this.resetForm}
           >
             <option value="firstName">FirstName</option>
             <option value="lastName">LastName</option>
@@ -253,7 +262,7 @@ class EmployeeSearch extends React.Component {
             type="text"
             name="filterKeyword"
             id="filterKeyword"
-            onChange={this.filterEmployeeList.bind(this)}
+            onChange={this.filterEmployeeList}
           />
         </form>
       </div>
@@ -272,6 +281,8 @@ class EmployeeDirectory extends React.Component {
       formErrors: { firstName: '', lastName: '', age: '', dateOfJoining: '' },
       filter: { key: '', value: '' },
     };
+    this.validateFormData = this.validateFormData.bind(this);
+    this.resetFormErrors = this.resetFormErrors.bind(this);
   }
 
   // GraphQL query to retrieve the employees list, and update the state
@@ -318,7 +329,7 @@ class EmployeeDirectory extends React.Component {
       ...prev,
       hasErrors: false,
     }));
-    $("html, body").animate({ scrollTop: 700 }, "slow");
+    $('html, body').animate({ scrollTop: 700 }, 'slow');
   }
 
   // Change the status of the form to pristine
@@ -402,8 +413,8 @@ class EmployeeDirectory extends React.Component {
         <EmployeeCreate
           employeesList={this.state.tempEmployeeList}
           handleEmployeeCreation={(employee) => this.createEmployee(employee)}
-          handleValidateFormData={this.validateFormData.bind(this)}
-          handleResetFormErrors={this.resetFormErrors.bind(this)}
+          handleValidateFormData={this.validateFormData}
+          handleResetFormErrors={this.resetFormErrors}
           formErrors={this.state.formErrors}
           hasErrors={this.state.hasErrors}
         />
