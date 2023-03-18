@@ -46,11 +46,9 @@ input UserInput {
 }
 
 type Query {
-    about: String!
     employeesList: [User!]!
 }
 
 type Mutation {
-    setAboutMessage(message: String!): String
     saveEmployee(employee: UserInput!): User
 }
