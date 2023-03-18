@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 const User = require('../models/User');
 const Counter = require('../models/Counter');
+const { findByIdAndUpdate } = require('../models/User');
 
 // Static employees list to seed the database
 const employeesList = [
@@ -72,11 +73,29 @@ async function insertUser(argUser) {
   return savedIssue;
 }
 
+async function updateUser(argUser) {
+  return findByIdAndUpdate(argUser._id, argUser);
+}
+
 // Get the list of all users(employees) from the DB
 async function getUsersList() {
-  const issues = await User.find({});
-  return issues;
+  return User.find({});
+}
+
+async function getUserById(argUserId) {
+  return User.findById(argUserId);
+}
+
+async function deleteUser(argUserId) {
+  return User.findByIdAndDelete(argUserId);
 }
 
 // Exporting the functions for use in other files
-module.exports = { seedData, insertUser, getUsersList };
+module.exports = {
+  seedData,
+  insertUser,
+  updateUser,
+  getUsersList,
+  getUserById,
+  deleteUser,
+};

@@ -47,8 +47,11 @@ input UserInput {
 
 type Query {
     employeesList: [User!]!
+    employeeById: [Int!]!
 }
 
 type Mutation {
     saveEmployee(employee: UserInput!): User
+    updateEmployee(employee: User!): User
+    deleteEmployee(employeeId: Int!): Int
 }
