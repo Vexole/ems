@@ -15,12 +15,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 configureServer(app);
-mongoose.set('strictQuery', false);
-mongoose.connect(process.env.MONGO_DB_URL, { useNewUrlParser: true });
 
 (async function start() {
   try {
-    await seedData();
+    mongoose.set('strictQuery', false);
+    await mongoose.connect(process.env.MONGO_DB_URL, { useNewUrlParser: true });
+    // await seedData();
     app.listen(process.env.PORT || 4000, () => {
       console.log(`App started on port ${process.env.PORT}`);
     });

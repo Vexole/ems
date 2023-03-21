@@ -1,57 +1,68 @@
 scalar GraphQLDate
 
 enum Title {
-    Employee
-    Manager
-    Director
-    VP
+  Employee
+  Manager
+  Director
+  VP
 }
 
 enum Department {
-    IT
-    Marketing
-    HR
-    Engineering
+  IT
+  Marketing
+  HR
+  Engineering
 }
 
 enum EmployeeType {
-    FullTime
-    PartTime
-    Contract
-    Seasonal
+  FullTime
+  PartTime
+  Contract
+  Seasonal
 }
 
 type User {
-    _id: ID!
-    id: Int!
-    firstName: String!
-    lastName: String!
-    age: Int!
-    dateOfJoining: GraphQLDate!
-    title: Title!
-    department: Department!
-    employeeType: EmployeeType!
-    status: Int!
+  _id: ID!
+  firstName: String!
+  lastName: String!
+  age: Int!
+  dateOfJoining: GraphQLDate!
+  title: Title!
+  department: Department!
+  employeeType: EmployeeType!
+  status: Int!
+}
+
+input UserUpdate {
+  _id: ID!
+  firstName: String!
+  lastName: String!
+  age: Int!
+  dateOfJoining: GraphQLDate!
+  title: Title!
+  department: Department!
+  employeeType: EmployeeType!
+  status: Int!
 }
 
 input UserInput {
-    firstName: String!
-    lastName: String!
-    age: Int!
-    dateOfJoining: GraphQLDate!
-    title: Title!
-    department: Department!
-    employeeType: EmployeeType!
-    status: Int = 1
+  firstName: String!
+  lastName: String!
+  age: Int!
+  dateOfJoining: GraphQLDate!
+  title: Title!
+  department: Department!
+  employeeType: EmployeeType!
+  status: Int = 1
 }
 
 type Query {
-    employeesList: [User!]!
-    employeeById: [Int!]!
+  employeesList: [User!]!
+  employeeById(employeeId: ID!): User!
 }
 
 type Mutation {
-    saveEmployee(employee: UserInput!): User
-    updateEmployee(employee: User!): User
-    deleteEmployee(employeeId: Int!): Int
+  saveEmployee(employee: UserInput!): User
+  updateEmployee(employee: UserUpdate!): ID!
+  deleteEmployee(employeeId: ID!): User
 }

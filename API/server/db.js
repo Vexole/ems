@@ -1,12 +1,10 @@
 /* eslint-disable no-underscore-dangle */
 const User = require('../models/User');
-const Counter = require('../models/Counter');
 const { findByIdAndUpdate } = require('../models/User');
 
 // Static employees list to seed the database
 const employeesList = [
   {
-    id: 1,
     firstName: 'Bhupesh',
     lastName: 'Shrestha',
     age: 28,
@@ -17,7 +15,6 @@ const employeesList = [
     status: 1,
   },
   {
-    id: 2,
     firstName: 'John',
     lastName: 'Doe',
     age: 35,
@@ -28,7 +25,6 @@ const employeesList = [
     status: 0,
   },
   {
-    id: 3,
     firstName: 'Jane',
     lastName: 'Smith',
     age: 58,
@@ -46,19 +42,7 @@ const employeesList = [
  */
 async function seedData() {
   await User.deleteMany({});
-  await Counter.deleteMany({});
   await User.insertMany(employeesList);
-  await Counter.create({ _id: 'users', current: 3 });
-}
-
-// Get the countrer from the collection, increment by one, and return the current value
-async function getNextSequence(name) {
-  const result = await Counter.findOneAndUpdate(
-    { _id: name },
-    { $inc: { current: 1 } },
-    { returnOriginal: false },
-  );
-  return result.current;
 }
 
 /*
@@ -67,14 +51,15 @@ async function getNextSequence(name) {
  */
 async function insertUser(argUser) {
   const user = { ...argUser };
-  user.id = await getNextSequence('users');
   const result = await User.create(user);
   const savedIssue = await User.findById(result._id);
   return savedIssue;
 }
 
 async function updateUser(argUser) {
-  return findByIdAndUpdate(argUser._id, argUser);
+  const updatedUser = await User.findByIdAndUpdate(argUser._id, argUser);
+  console.log(updatedUser);
+  return updatedUser._id;
 }
 
 // Get the list of all users(employees) from the DB
@@ -87,7 +72,8 @@ async function getUserById(argUserId) {
 }
 
 async function deleteUser(argUserId) {
-  return User.findByIdAndDelete(argUserId);
+  const deletedUser = await User.findByIdAndDelete(argUserId);
+  return deletedUser._id;
 }
 
 // Exporting the functions for use in other files

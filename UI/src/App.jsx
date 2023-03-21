@@ -1,7 +1,12 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import EmployeeDirectory from './EmployeeDirectory.jsx';
+import { HashRouter as Router } from 'react-router-dom';
+import Page from './Page.jsx';
 
-const element = <EmployeeDirectory />;
+const element = (
+  <Router>
+    <Page />
+  </Router>
+);
 const root = createRoot(document.getElementById('root'));
 root.render(element);

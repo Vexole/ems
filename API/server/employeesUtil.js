@@ -11,8 +11,8 @@ async function employeesList() {
   return getUsersList();
 }
 
-async function getEmployeeById(argEmployeeId) {
-  return getUserById(argEmployeeId);
+async function employeeById(_, { employeeId }) {
+  return getUserById(employeeId);
 }
 
 // Save an employee details to the DB
@@ -25,13 +25,13 @@ async function updateEmployee(_, { employee }) {
   return updateUser(employee);
 }
 
-async function deleteEmployee(argEmployeeId) {
-  return deleteUser(argEmployeeId);
+async function deleteEmployee(_, { employeeId }) {
+  return deleteUser(employeeId);
 }
 
 module.exports = {
   employeesList,
-  getEmployeeById,
+  employeeById,
   saveEmployee,
   updateEmployee,
   deleteEmployee,

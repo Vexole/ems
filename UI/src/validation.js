@@ -35,7 +35,7 @@ export default function validateFormData({
   if (!age) {
     isFormValid = false;
     this.setError('age');
-  } else if (isNaN(age) || age < 20 || age > 70) {
+  } else if (Number.isNaN(age) || age < 20 || age > 70) {
     isFormValid = false;
     this.setError('age', 'Age must be between 20 and 70');
   }

@@ -1,15 +1,24 @@
 const fs = require('fs');
 const { ApolloServer } = require('apollo-server-express');
-const { employeesList, saveEmployee } = require('./employeesUtil');
+const {
+  employeesList,
+  employeeById,
+  saveEmployee,
+  updateEmployee,
+  deleteEmployee,
+} = require('./employeesUtil');
 const { GraphQLDate } = require('./graphqlDateType');
 
 // Resolvers to retrieve the employees list and save an employee
 const resolvers = {
   Query: {
     employeesList,
+    employeeById,
   },
   Mutation: {
     saveEmployee,
+    updateEmployee,
+    deleteEmployee,
   },
   GraphQLDate,
 };

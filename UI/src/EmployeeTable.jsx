@@ -8,7 +8,7 @@ export default class EmployeeTable extends React.Component {
     const employeesList = this.props.employeesList.map((employees, index) => (
       <EmployeeRow
         employeeDetails={employees}
-        key={employees.id}
+        key={employees._id}
         index={index}
       />
     ));
