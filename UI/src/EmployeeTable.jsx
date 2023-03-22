@@ -5,13 +5,20 @@ import EmployeeSearch from './EmployeeSearch.jsx';
 export default class EmployeeTable extends React.Component {
   render() {
     // Iterate through the employees list and create components for each entry
-    const employeesList = this.props.employeesList.map((employees, index) => (
-      <EmployeeRow
-        employeeDetails={employees}
-        key={employees._id}
-        index={index}
-      />
-    ));
+    const employeesList =
+      this.props.employeesList.length > 0 ? (
+        this.props.employeesList.map((employees, index) => (
+          <EmployeeRow
+            employeeDetails={employees}
+            key={employees._id}
+            index={index}
+          />
+        ))
+      ) : (
+        <tr>
+          <td colspan="9" className="no-records">No Records Found!</td>
+        </tr>
+      );
 
     return (
       <section id="employee-list-container">

@@ -1,12 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function NavBar() {
   return (
     <section className="top-nav">
       <div>
-        <a href="/">
+        <Link to="/">
           <p className="logo">Employee Management System</p>
-        </a>
+        </Link>
       </div>
       <input id="menu-toggle" type="checkbox" />
       <label className="menu-button-container" htmlFor="menu-toggle">
@@ -14,10 +15,10 @@ export default function NavBar() {
       </label>
       <ul className="menu">
         <li>
-          <a href="/#/employees">Employees</a>
+          <Link to="/employees">Employees</Link>
         </li>
         <li>
-          <a href="/#/employee/create">Create an Employee</a>
+          <Link to="/create">Create an Employee</Link>
         </li>
       </ul>
     </section>

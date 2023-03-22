@@ -9,7 +9,6 @@ export default function validateFormData({
   dateOfJoining,
 }) {
   let isFormValid = true;
-
   if (!firstName) {
     isFormValid = false;
     this.setError('firstName');

@@ -1,9 +1,43 @@
 import React from 'react';
+import validateFormData from './validation';
+import graphQLFetch from './graphqlAPI';
+import { saveEmployeeQuery } from './graphqlQueries';
 
 export default class EmployeeCreate extends React.Component {
   constructor() {
     super();
+    this.state = {
+      hasErrors: false,
+      formErrors: { firstName: '', lastName: '', age: '', dateOfJoining: '' },
+    };
     this.createEmployee = this.createEmployee.bind(this);
+    this.validateFormData = validateFormData.bind(this);
+  }
+
+  // Change the status of the form to pristine
+  resetFormErrors() {
+    this.setState({ hasErrors: false, formErrors: {} });
+  }
+
+  // Common function to set the error message.
+  setError(field, message = 'This field is required') {
+    this.setState((prev) => ({
+      formErrors: { ...prev.formErrors, [field]: message },
+      hasErrors: true,
+    }));
+  }
+
+  // GraphQL mutation query to save an employee, and refresh the employees list
+  async saveEmployee(employee) {
+    const data = await graphQLFetch(saveEmployeeQuery, { employee });
+    if (data) {
+      alert('Employee Created!');
+      const { history } = this.props;
+      history.push({
+        pathname: '/employees',
+        search: '',
+      });
+    }
   }
 
   createEmployee(e) {
@@ -33,11 +67,16 @@ export default class EmployeeCreate extends React.Component {
      * If user input is not valid, show the error,
      * Else make the API call, and reset the form
      */
-    this.props.handleResetFormErrors();
-    const isFormValid = this.props.handleValidateFormData(employee);
+    this.resetFormErrors();
+    const isFormValid = this.validateFormData(employee);
     if (!isFormValid) return;
 
-    this.props.handleEmployeeCreation(employee);
+    this.saveEmployee(employee);
+    this.setState((prev) => ({
+      ...prev,
+      hasErrors: false,
+    }));
+
     e.target.reset();
   }
 
@@ -53,25 +92,25 @@ export default class EmployeeCreate extends React.Component {
           <label htmlFor="firstName">First Name</label>
           <input type="text" name="firstName" id="firstName" />
           <p className="errors">
-            {this.props.hasErrors && this.props.formErrors.firstName}
+            {this.state.hasErrors && this.state.formErrors.firstName}
           </p>
 
           <label htmlFor="lastName">Last Name</label>
           <input type="text" name="lastName" id="lastName" />
           <p className="errors">
-            {this.props.hasErrors && this.props.formErrors.lastName}
+            {this.state.hasErrors && this.state.formErrors.lastName}
           </p>
 
           <label htmlFor="age">Age</label>
           <input type="number" name="age" id="age" />
           <p className="errors">
-            {this.props.hasErrors && this.props.formErrors.age}
+            {this.state.hasErrors && this.state.formErrors.age}
           </p>
 
           <label htmlFor="dateOfJoining">Date of Joining</label>
           <input type="date" name="dateOfJoining" id="dateOfJoining" />
           <p className="errors">
-            {this.props.hasErrors && this.props.formErrors.dateOfJoining}
+            {this.state.hasErrors && this.state.formErrors.dateOfJoining}
           </p>
 
           <label htmlFor="title">Title</label>
@@ -81,9 +120,7 @@ export default class EmployeeCreate extends React.Component {
             <option value="Director">Director</option>
             <option value="VP">VP</option>
           </select>
-          <p className="errors">
-            {this.props.hasErrors && this.props.formErrors.title}
-          </p>
+          <p className="errors">{this.hasErrors && this.formErrors.title}</p>
 
           <label htmlFor="department">Department</label>
           <select id="department" name="department">
@@ -93,7 +130,7 @@ export default class EmployeeCreate extends React.Component {
             <option value="Engineering">Engineering</option>
           </select>
           <p className="errors">
-            {this.props.hasErrors && this.props.formErrors.department}
+            {this.hasErrors && this.formErrors.department}
           </p>
 
           <label htmlFor="employeeType">Employee Type</label>
@@ -104,7 +141,7 @@ export default class EmployeeCreate extends React.Component {
             <option value="Seasonal">Seasonal</option>
           </select>
           <p className="errors">
-            {this.props.hasErrors && this.props.formErrors.employeeType}
+            {this.hasErrors && this.formErrors.employeeType}
           </p>
 
           <input type="submit" value="Submit" className="create-employee-btn" />

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 // Component to display each row for an employee
 export default function EmployeeRow(props) {
@@ -26,9 +27,9 @@ export default function EmployeeRow(props) {
       <td>{employeeType.split(/\.?(?=[A-Z])/).join('-')}</td>
       <td>{status == 1 ? 'Working' : 'Retired'}</td>
       <td>
-        <a href={`/#/employee/${_id}`}>View</a> |{' '}
-        <a href={`/#/employee/edit/${_id}`}> Edit</a> |
-        <a href={`/#/employee/delete/${_id}`}> Delete</a>
+        <Link to={`/detail/${_id}`}>View</Link> |{' '}
+        <Link to={`/edit/${_id}`}> Edit</Link> |
+        <Link to={`/delete/${_id}`}> Delete</Link>
       </td>
     </tr>
   );

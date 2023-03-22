@@ -63,8 +63,8 @@ async function updateUser(argUser) {
 }
 
 // Get the list of all users(employees) from the DB
-async function getUsersList() {
-  return User.find({});
+async function getUsersList(filter) {
+  return User.find(filter);
 }
 
 async function getUserById(argUserId) {

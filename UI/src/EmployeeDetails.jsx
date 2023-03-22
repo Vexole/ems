@@ -1,63 +1,25 @@
 import React from 'react';
 import graphQLFetch from './graphqlAPI';
-import { useParams } from 'react-router-dom';
-import EmployeeDelete from './EmployeeDelete.jsx';
-import EmployeeEdit from './EmployeeEdit.jsx';
+import { employeeByIdQuery } from './graphqlQueries';
 
-function getParam(Component) {
-  return (props) => <Component {...props} params={useParams()} />;
-}
-
-class EmployeeDetails extends React.Component {
+export default class EmployeeDetails extends React.Component {
   constructor() {
     super();
     this.state = {
       employee: {},
-      hasErrors: false,
-      formErrors: { firstName: '', lastName: '', age: '', dateOfJoining: '' },
-      title: '',
-      department: '',
-      status: '',
     };
-    this.resetFormErrors = this.resetFormErrors.bind(this);
-    this.getEmployeeById = this.getEmployeeById.bind(this);
-    this.handleTitleChange = this.handleTitleChange.bind(this);
-    this.handleDepartmentChange = this.handleDepartmentChange.bind(this);
-    this.handleStatusChange = this.handleStatusChange.bind(this);
   }
 
   componentDidMount() {
-    this.employeeId = this.props.params.id;
-    if (this.employeeId) {
-      this.getEmployeeById(this.employeeId);
+    const { id } = this.props.match.params;
+    if (id) {
+      this.getEmployeeById(id);
     }
   }
 
-  resetFormErrors() {
-    this.setState({ hasErrors: false, formErrors: {} });
-  }
-
-  handleTitleChange(e) {
-    this.setState({ title: e.target.value });
-  }
-
-  handleDepartmentChange(e) {
-    this.setState({ department: e.target.value });
-  }
-
-  handleStatusChange(e) {
-    this.setState({ status: e.target.value });
-  }
-
   async getEmployeeById(employeeId) {
-    const query = `query EmployeeById($employeeId: ID!) {
-        employeeById(employeeId: $employeeId) {
-          _id firstName lastName age dateOfJoining title department employeeType status
-        }
-      }`;
-
     const vars = { employeeId };
-    const data = await graphQLFetch(query, vars);
+    const data = await graphQLFetch(employeeByIdQuery, vars);
     if (data) {
       const { title, department, status } = data.employeeById;
       this.setState({
@@ -70,26 +32,8 @@ class EmployeeDetails extends React.Component {
   }
 
   render() {
-    const { _id, firstName, lastName, age, dateOfJoining, employeeType } =
+    const { firstName, lastName, age, dateOfJoining, employeeType } =
       this.state.employee;
-
-    this.textStatus = status == 0 ? 'Retired' : 'Working';
-    this.mode = this.props.mode;
-    this.disabled = { disabled: 'disabled' };
-
-    if (this.mode === 'delete') {
-      this.actionButton = <EmployeeDelete employeeId={_id} />;
-    } else if (this.mode === 'edit') {
-      this.actionButton = (
-        <EmployeeEdit
-          employee={this.state.employee}
-          handleResetFormErrors={this.resetFormErrors}
-          handleGetEmployee={this.getEmployeeById}
-          getEmployeesList={this.props.getEmployeesList}
-        />
-      );
-      this.disabled = '';
-    }
 
     return (
       <>
@@ -98,8 +42,6 @@ class EmployeeDetails extends React.Component {
             Employee Details: {firstName} {lastName}
           </h1>
           <form name="updateEmployee" className="add-employee-form">
-            <input type="hidden" name="_id" value={_id || ''} />
-
             <label htmlFor="firstName">First Name</label>
             <input
               type="text"
@@ -149,13 +91,7 @@ class EmployeeDetails extends React.Component {
             </p>
 
             <label htmlFor="title">Title</label>
-            <select
-              id="title"
-              name="title"
-              value={this.state.title}
-              {...this.disabled}
-              onChange={this.handleTitleChange}
-            >
+            <select id="title" name="title" value={this.state.title} disabled>
               <option value="Employee">Employee</option>
               <option value="Manager">Manager</option>
               <option value="Director">Director</option>
@@ -170,8 +106,7 @@ class EmployeeDetails extends React.Component {
               id="department"
               name="department"
               value={this.state.department}
-              {...this.disabled}
-              onChange={this.handleDepartmentChange}
+              disabled
             >
               <option value="IT">IT</option>
               <option value="Marketing">Marketing</option>
@@ -203,7 +138,7 @@ class EmployeeDetails extends React.Component {
               id="status"
               name="status"
               value={this.state.status}
-              {...this.disabled}
+              disabled
               onChange={this.handleStatusChange}
             >
               <option value="Working">Working</option>
@@ -213,13 +148,9 @@ class EmployeeDetails extends React.Component {
             <p className="errors">
               {this.props.hasErrors && this.props.formErrors.employeeType}
             </p>
-
-            {this.actionButton}
           </form>
         </section>
       </>
     );
   }
 }
-
-export default getParam(EmployeeDetails);

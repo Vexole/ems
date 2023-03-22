@@ -7,8 +7,10 @@ const {
 } = require('./db');
 
 // Get employees list from the DB
-async function employeesList() {
-  return getUsersList();
+async function employeesList(_, { employeeType }) {
+  const filter = {};
+  if (employeeType) filter.employeeType = employeeType;
+  return getUsersList(filter);
 }
 
 async function employeeById(_, { employeeId }) {
