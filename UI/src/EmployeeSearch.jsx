@@ -34,11 +34,20 @@ class EmployeeSearch extends React.Component {
   }
 
   render() {
+    const {
+      location: { search },
+    } = this.props;
+
+    const params = new URLSearchParams(search);
+    const employeeType = params.get('employeeType');
     return (
       <>
-        <form className='search-form-container'>
+        <form className="search-form-container">
           <h3>Employee Type: </h3>
-          <select onChange={this.onChangeEmployeeType}>
+          <select
+            onChange={this.onChangeEmployeeType}
+            defaultValue={employeeType ?? ''}
+          >
             <option value="">(All)</option>
             <option value="FullTime">Full-Time</option>
             <option value="PartTime">Part-Time</option>

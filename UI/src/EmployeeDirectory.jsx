@@ -27,8 +27,9 @@ class EmployeeDirectory extends React.Component {
 
     const params = new URLSearchParams(search);
     const vars = {};
-    if (params.get('employeeType'))
+    if (params.get('employeeType')) {
       vars.employeeType = params.get('employeeType');
+    }
 
     const data = await graphQLFetch(employeeListQuery, vars);
     if (data) {

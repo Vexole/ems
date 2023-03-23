@@ -16,7 +16,7 @@ export default class EmployeeTable extends React.Component {
         ))
       ) : (
         <tr>
-          <td colspan="9" className="no-records">No Records Found!</td>
+          <td colSpan="9" className="no-records">No Records Found!</td>
         </tr>
       );
 

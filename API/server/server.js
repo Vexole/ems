@@ -20,7 +20,6 @@ configureServer(app);
   try {
     mongoose.set('strictQuery', false);
     await mongoose.connect(process.env.MONGO_DB_URL, { useNewUrlParser: true });
-    // await seedData();
     app.listen(process.env.PORT || 4000, () => {
       console.log(`App started on port ${process.env.PORT}`);
     });

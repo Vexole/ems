@@ -58,7 +58,6 @@ async function insertUser(argUser) {
 
 async function updateUser(argUser) {
   const updatedUser = await User.findByIdAndUpdate(argUser._id, argUser);
-  console.log(updatedUser);
   return updatedUser._id;
 }
 
