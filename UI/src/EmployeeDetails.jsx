@@ -10,6 +10,7 @@ export default class EmployeeDetails extends React.Component {
     };
   }
 
+  // Get the id from the URL and it's get details
   componentDidMount() {
     const { id } = this.props.match.params;
     if (id) {
@@ -17,6 +18,7 @@ export default class EmployeeDetails extends React.Component {
     }
   }
 
+  // Fetch employee based on the employee id provided
   async getEmployeeById(employeeId) {
     const vars = { employeeId };
     const data = await graphQLFetch(employeeByIdQuery, vars);

@@ -16,7 +16,7 @@ export default function validateFormData({
     isFormValid = false;
     this.setError(
       'firstName',
-      'Must be at least 3 characters. Cannot contain number, space or special characters'
+      'Must be at least 3 characters. Cannot contain number, space or special characters',
     );
   }
 
@@ -27,7 +27,7 @@ export default function validateFormData({
     isFormValid = false;
     this.setError(
       'lastName',
-      'Must be at least 3 characters. Cannot contain number, space or special characters'
+      'Must be at least 3 characters. Cannot contain number, space or special characters',
     );
   }
 

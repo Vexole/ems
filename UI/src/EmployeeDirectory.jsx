@@ -19,7 +19,10 @@ class EmployeeDirectory extends React.Component {
     this.filterEmployeeList = this.filterEmployeeList.bind(this);
   }
 
-  // GraphQL query to retrieve the employees list, and update the state
+  /*
+   * Get the employee type from the URL
+   * Run GraphQL query to retrieve the employees list, and update the state
+   */
   async getEmployeesList() {
     const {
       location: { search },
@@ -60,6 +63,9 @@ class EmployeeDirectory extends React.Component {
     this.getEmployeesList();
   }
 
+  /* 
+   * Check if the URL parameter has changed, if yes, fetch the new employees list
+   */
   componentDidUpdate(prevProps) {
     const {
       location: { search: prevSearch },

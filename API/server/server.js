@@ -3,7 +3,6 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const { configureServer } = require('./bootstrapServer');
-const { seedData } = require('./db');
 
 /*
  * Instantiate the express app, and configure the middleware for it, and

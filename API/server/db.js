@@ -1,6 +1,5 @@
 /* eslint-disable no-underscore-dangle */
 const User = require('../models/User');
-const { findByIdAndUpdate } = require('../models/User');
 
 // Static employees list to seed the database
 const employeesList = [

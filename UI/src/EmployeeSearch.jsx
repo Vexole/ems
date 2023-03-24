@@ -9,6 +9,7 @@ class EmployeeSearch extends React.Component {
     this.onChangeEmployeeType = this.onChangeEmployeeType.bind(this);
   }
 
+  // Change the history of the URL when user tries to filter the employees record
   onChangeEmployeeType(e) {
     const employeeType = e.target.value;
     this.resetForm();

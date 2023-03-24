@@ -13,6 +13,7 @@ export default class EmployeeEdit extends React.Component {
     this.handleStatusChange = this.handleStatusChange.bind(this);
   }
 
+  // Get the id from the URL and it's get details
   componentDidMount() {
     const { id } = this.props.match.params;
     if (id) {
@@ -20,6 +21,7 @@ export default class EmployeeEdit extends React.Component {
     }
   }
 
+  // Fetch employee based on the employee id provided
   async getEmployeeById(employeeId) {
     const vars = { employeeId };
     const data = await graphQLFetch(employeeByIdQuery, vars);
@@ -35,6 +37,9 @@ export default class EmployeeEdit extends React.Component {
     }
   }
 
+  /* 
+   * Update the employee details based on the data provided by user in the form
+   */
   async updateEmployee(e) {
     e.preventDefault();
     // Get inputs from the form
@@ -61,14 +66,17 @@ export default class EmployeeEdit extends React.Component {
     }
   }
 
+  // Change the state title value when it's value in input field is changed.
   handleTitleChange(e) {
     this.setState({ title: e.target.value });
   }
 
+  // Change the state department value when it's value in input field is changed.
   handleDepartmentChange(e) {
     this.setState({ department: e.target.value });
   }
 
+  // Change the state status value when it's value in input field is changed.
   handleStatusChange(e) {
     this.setState({ status: e.target.value });
   }

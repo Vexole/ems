@@ -10,6 +10,7 @@ class EmployeeDelete extends React.Component {
     this.deleteEmployee = this.deleteEmployee.bind(this);
   }
 
+  // Get the id from the URL and it's get details
   componentDidMount() {
     const { id } = this.props.match.params;
     if (id) {
@@ -17,6 +18,7 @@ class EmployeeDelete extends React.Component {
     }
   }
 
+  // Make an API call to delete the selected employee, and redirect to the employess list screen
   async deleteEmployee() {
     const data = await graphQLFetch(deleteEmployeeByIdQuery, {
       employeeId: this.props.match.params.id,
@@ -32,6 +34,7 @@ class EmployeeDelete extends React.Component {
     }
   }
 
+  // Fetch employee based on the employee id provided
   async getEmployeeById(employeeId) {
     const vars = { employeeId };
     const data = await graphQLFetch(employeeByIdQuery, vars);
