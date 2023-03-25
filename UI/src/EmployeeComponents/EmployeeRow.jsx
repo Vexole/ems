@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-// Component to display each row for an employee
+{ /* Component to display each row for an employee */ }
 export default function EmployeeRow(props) {
   const {
     _id,

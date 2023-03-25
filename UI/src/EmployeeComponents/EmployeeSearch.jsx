@@ -9,8 +9,8 @@ class EmployeeSearch extends React.Component {
     this.onChangeEmployeeType = this.onChangeEmployeeType.bind(this);
   }
 
-  // Change the history of the URL when user tries to filter the employees record
   onChangeEmployeeType(e) {
+    { /* Change the history of the URL when user tries to filter the employees record */ }
     const employeeType = e.target.value;
     this.resetForm();
     const { history } = this.props;
@@ -20,15 +20,15 @@ class EmployeeSearch extends React.Component {
     });
   }
 
-  // Pass the entered keyword and selected parameter for search/filter
   filterEmployeeList(e) {
+    { /* Pass the entered keyword and selected parameter for search/filter */}
     e.preventDefault();
     const { filterKeyword, fitlerParameter } = document.forms.filterForm;
     this.props.handleEmployeeFilter(fitlerParameter.value, filterKeyword.value);
   }
 
-  // Reset the search input field when dropdown value changes
   resetForm(e) {
+    { /* Reset the search input field when dropdown value changes */ }
     const { filterKeyword, fitlerParameter } = document.forms.filterForm;
     filterKeyword.value = '';
     this.props.handleEmployeeFilter(fitlerParameter.value, filterKeyword.value);

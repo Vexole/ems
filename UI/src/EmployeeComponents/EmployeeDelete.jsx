@@ -1,7 +1,18 @@
 import React from 'react';
-import graphQLFetch from './graphqlAPI';
-import { deleteEmployeeByIdQuery, employeeByIdQuery } from './graphqlQueries';
 import { withRouter } from 'react-router-dom';
+import graphQLFetch from '../js/graphqlAPI';
+import { deleteEmployeeByIdQuery, employeeByIdQuery } from '../js/graphqlQueries';
+import NumberField from '../FormFieldComponents/NumberField.jsx';
+import TextField from '../FormFieldComponents/TextField.jsx';
+import ButtonField from '../FormFieldComponents/ButtonField.jsx';
+import SelectField from '../FormFieldComponents/SelectField.jsx';
+import DateField from '../FormFieldComponents/DateField.jsx';
+import {
+  titleOptions,
+  departmentOptions,
+  employeeTypeOptions,
+  statusOptions,
+} from '../js/selectOptions';
 
 class EmployeeDelete extends React.Component {
   constructor() {
@@ -10,16 +21,16 @@ class EmployeeDelete extends React.Component {
     this.deleteEmployee = this.deleteEmployee.bind(this);
   }
 
-  // Get the id from the URL and it's get details
   componentDidMount() {
+    { /* Get the id from the URL and it's get details */ }
     const { id } = this.props.match.params;
     if (id) {
       this.getEmployeeById(id);
     }
   }
 
-  // Make an API call to delete the selected employee, and redirect to the employess list screen
   async deleteEmployee() {
+    { /* Make an API call to delete the selected employee, and redirect to the employess list screen */ }
     const data = await graphQLFetch(deleteEmployeeByIdQuery, {
       employeeId: this.props.match.params.id,
     });
@@ -34,13 +45,13 @@ class EmployeeDelete extends React.Component {
     }
   }
 
-  // Fetch employee based on the employee id provided
   async getEmployeeById(employeeId) {
+    { /* Fetch employee based on the employee id provided */ }
     const vars = { employeeId };
     const data = await graphQLFetch(employeeByIdQuery, vars);
     if (data) {
       this.setState({
-        employee: data.employeeById,
+        employee: data.employeeById
       });
     }
   }
@@ -57,6 +68,7 @@ class EmployeeDelete extends React.Component {
       department,
       status,
     } = this.state.employee;
+
     return (
       <section id="add-employee-container">
         <h1 className="section-header">
@@ -66,86 +78,71 @@ class EmployeeDelete extends React.Component {
           <input type="hidden" name="_id" value={_id || ''} />
 
           <label htmlFor="firstName">First Name</label>
-          <input
-            type="text"
-            name="firstName"
-            id="firstName"
-            value={firstName || ''}
-            disabled
-          />
+          {firstName && (
+            <TextField disabled="disabled" name="firstName" value={firstName} />
+          )}
           <span></span>
 
           <label htmlFor="lastName">Last Name</label>
-          <input
-            type="text"
-            name="lastName"
-            id="lastName"
-            defaultValue={lastName || ''}
-            disabled
-          />
+          {lastName && (
+            <TextField disabled="disabled" name="lastName" value={lastName} />
+          )}
           <span></span>
 
           <label htmlFor="age">Age</label>
-          <input
-            type="number"
-            name="age"
-            id="age"
-            defaultValue={age}
-            disabled
-          />
+          {age && (
+            <NumberField disabled="disabled" name="age" defaultValue={age} />
+          )}
           <span></span>
 
           <label htmlFor="dateOfJoining">Date of Joining</label>
-          <input
-            type="date"
-            name="dateOfJoining"
-            id="dateOfJoining"
-            defaultValue={dateOfJoining}
-            disabled
-          />
+          {dateOfJoining && (
+            <DateField
+              name="dateOfJoining"
+              id="dateOfJoining"
+              value={dateOfJoining}
+              disabled="disabled"
+            />
+          )}
           <span></span>
 
           <label htmlFor="title">Title</label>
-          <select id="title" name="title" value={title} disabled>
-            <option value="Employee">Employee</option>
-            <option value="Manager">Manager</option>
-            <option value="Director">Director</option>
-            <option value="VP">VP</option>
-          </select>
+          <SelectField
+            value={title}
+            disabled="disabled"
+            name="title"
+            options={titleOptions}
+          />
           <span></span>
 
           <label htmlFor="department">Department</label>
-          <select id="department" name="department" value={department} disabled>
-            <option value="IT">IT</option>
-            <option value="Marketing">Marketing</option>
-            <option value="HR">HR</option>
-            <option value="Engineering">Engineering</option>
-          </select>
+          <SelectField
+            value={department}
+            disabled="disabled"
+            name="department"
+            options={departmentOptions}
+          />
           <span></span>
 
           <label htmlFor="employeeType">Employee Type</label>
-          <select
-            id="employeeType"
-            name="employeeType"
+          <SelectField
             value={employeeType}
-            disabled
-          >
-            <option value="FullTime">Full Time</option>
-            <option value="PartTime">Part Time</option>
-            <option value="Contract">Contract</option>
-            <option value="Seasonal">Seasonal</option>
-          </select>
+            disabled="disabled"
+            name="employeeType"
+            options={employeeTypeOptions}
+          />
           <span></span>
 
           <label htmlFor="status">Status</label>
-          <select id="status" name="status" value={status} disabled>
-            <option value="1">Working</option>
-            <option value="0">Retired</option>
-          </select>
+          <SelectField
+            value={status == 0 ? 'Retired' : 'Working'}
+            disabled="disabled"
+            name="status"
+            options={statusOptions}
+          />
           <span></span>
 
-          <input
-            type="button"
+          <ButtonField
             value="Delete"
             className="delete-employee-btn"
             onClick={this.deleteEmployee}

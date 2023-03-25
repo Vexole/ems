@@ -1,14 +1,14 @@
 import React from 'react';
 import EmployeeTable from './EmployeeTable.jsx';
-import Header from './Header.jsx';
-import graphQLFetch from './graphqlAPI.js';
+import Header from '../Header.jsx';
+import graphQLFetch from '../js/graphqlAPI.js';
 import URLSearchParams from 'url-search-params';
 import { withRouter } from 'react-router-dom';
-import { employeeListQuery } from './graphqlQueries.js';
+import { employeeListQuery } from '../js/graphqlQueries.js';
 
 class EmployeeDirectory extends React.Component {
-  // Define the initial state of the application
   constructor() {
+    { /* Define the initial state of the application */ }
     super();
     this.state = {
       employeesList: [],
@@ -19,11 +19,11 @@ class EmployeeDirectory extends React.Component {
     this.filterEmployeeList = this.filterEmployeeList.bind(this);
   }
 
-  /*
-   * Get the employee type from the URL
-   * Run GraphQL query to retrieve the employees list, and update the state
-   */
   async getEmployeesList() {
+    { /*
+      * Get the employee type from the URL
+      * Run GraphQL query to retrieve the employees list, and update the state
+      */ }
     const {
       location: { search },
     } = this.props;
@@ -44,8 +44,8 @@ class EmployeeDirectory extends React.Component {
     }
   }
 
-  // Filter the employee list based on the parameter and keyword
   filterEmployeeList(keyword, value) {
+    { /* Filter the employee list based on the parameter and keyword */ }
     if (!value) {
       this.setState({ tempEmployeeList: this.state.employeesList });
     } else {
@@ -58,15 +58,13 @@ class EmployeeDirectory extends React.Component {
     }
   }
 
-  // Get the employees list from the DB after the component has been mounted
   componentDidMount() {
+    { /* Get the employees list from the DB after the component has been mounted */ }
     this.getEmployeesList();
   }
 
-  /* 
-   * Check if the URL parameter has changed, if yes, fetch the new employees list
-   */
   componentDidUpdate(prevProps) {
+    { /* Check if the URL parameter has changed, if yes, fetch the new employees list */ }
     const {
       location: { search: prevSearch },
     } = prevProps;

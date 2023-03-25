@@ -1,11 +1,11 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import EmployeeCreate from './EmployeeCreate.jsx';
+import EmployeeCreate from './EmployeeComponents/EmployeeCreate.jsx';
 import NotFound from './NotFound.jsx';
-import EmployeeDetails from './EmployeeDetails.jsx';
-import EmployeeDirectory from './EmployeeDirectory.jsx';
-import EmployeeEdit from './EmployeeEdit.jsx';
-import EmployeeDelete from './EmployeeDelete.jsx';
+import EmployeeDetails from './EmployeeComponents/EmployeeDetails.jsx';
+import EmployeeDirectory from './EmployeeComponents/EmployeeDirectory.jsx';
+import EmployeeEdit from './EmployeeComponents/EmployeeEdit.jsx';
+import EmployeeDelete from './EmployeeComponents/EmployeeDelete.jsx';
 
 export default class PageRoutes extends React.Component {
   render() {

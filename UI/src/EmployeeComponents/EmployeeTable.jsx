@@ -4,7 +4,7 @@ import EmployeeSearch from './EmployeeSearch.jsx';
 
 export default class EmployeeTable extends React.Component {
   render() {
-    // Iterate through the employees list and create components for each entry
+    { /* Iterate through the employees list and create components for each entry */ }
     const employeesList =
       this.props.employeesList.length > 0 ? (
         this.props.employeesList.map((employees, index) => (
