@@ -6,6 +6,7 @@ const {
   saveEmployee,
   updateEmployee,
   deleteEmployee,
+  employeesListNearingRetirement,
 } = require('./employeesUtil');
 const { GraphQLDate } = require('./graphqlDateType');
 
@@ -14,6 +15,7 @@ const resolvers = {
   Query: {
     employeesList,
     employeeById,
+    employeesListNearingRetirement,
   },
   Mutation: {
     saveEmployee,

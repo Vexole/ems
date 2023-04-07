@@ -19,7 +19,11 @@ const employeeListQuery = `query EmployeesList($employeeType: EmployeeType) {
   }`;
 const employeeByIdQuery = `query EmployeeById($employeeId: ID!) {
     employeeById(employeeId: $employeeId) {
-      _id firstName lastName age dateOfJoining title department employeeType status
+      _id firstName lastName age dateOfJoining title department employeeType status retirementInfo {
+        days
+        months
+        years
+      }
     }
   }`;
 

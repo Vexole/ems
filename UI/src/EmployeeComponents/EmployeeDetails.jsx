@@ -44,9 +44,11 @@ export default class EmployeeDetails extends React.Component {
   }
 
   render() {
-    const { firstName, lastName, age, dateOfJoining, employeeType } =
+    const { firstName, lastName, age, dateOfJoining, employeeType, retirementInfo } =
       this.state.employee;
-
+    const retirementDays = retirementInfo && this.state.status === 'Working' ? 
+      `${retirementInfo.days} days, ${retirementInfo.months} months, ${retirementInfo.years} years` 
+      : 'Retired';
     return (
       <>
         <section id="add-employee-container">
@@ -121,6 +123,12 @@ export default class EmployeeDetails extends React.Component {
               name="status"
               options={statusOptions}
             />
+            <span></span>
+
+            <label htmlFor="retirementInfo">Days for Retirement</label>
+            {this.state.status && retirementInfo && (
+              <TextField disabled="disabled" name="retirementInfo" value={retirementDays} />
+            )}
             <span></span>
           </form>
         </section>

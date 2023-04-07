@@ -1,7 +1,10 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import graphQLFetch from '../js/graphqlAPI';
-import { deleteEmployeeByIdQuery, employeeByIdQuery } from '../js/graphqlQueries';
+import {
+  deleteEmployeeByIdQuery,
+  employeeByIdQuery,
+} from '../js/graphqlQueries';
 import NumberField from '../FormFieldComponents/NumberField.jsx';
 import TextField from '../FormFieldComponents/TextField.jsx';
 import ButtonField from '../FormFieldComponents/ButtonField.jsx';
@@ -22,7 +25,9 @@ class EmployeeDelete extends React.Component {
   }
 
   componentDidMount() {
-    { /* Get the id from the URL and it's get details */ }
+    {
+      /* Get the id from the URL and it's get details */
+    }
     const { id } = this.props.match.params;
     if (id) {
       this.getEmployeeById(id);
@@ -30,28 +35,41 @@ class EmployeeDelete extends React.Component {
   }
 
   async deleteEmployee() {
-    { /* Make an API call to delete the selected employee, and redirect to the employess list screen */ }
+    {
+      /* Make an API call to delete the selected employee, and redirect to the employess list screen */
+    }
+
+    if (this.state.employee.status === 1) {
+      alert("CAN'T DELETE EMPLOYEE - STATUS ACTIVE");
+      return;
+    }
+
     const data = await graphQLFetch(deleteEmployeeByIdQuery, {
       employeeId: this.props.match.params.id,
     });
 
-    if (data) {
+    if (data.deleteEmployee) {
       alert('Employee Deleted');
       const { history } = this.props;
       history.push({
         pathname: '/employees',
         search: '',
       });
+    } else {
+      alert("CAN'T DELETE EMPLOYEE - STATUS ACTIVE");
+      return;
     }
   }
 
   async getEmployeeById(employeeId) {
-    { /* Fetch employee based on the employee id provided */ }
+    {
+      /* Fetch employee based on the employee id provided */
+    }
     const vars = { employeeId };
     const data = await graphQLFetch(employeeByIdQuery, vars);
     if (data) {
       this.setState({
-        employee: data.employeeById
+        employee: data.employeeById,
       });
     }
   }

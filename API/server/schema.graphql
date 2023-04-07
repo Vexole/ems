@@ -21,6 +21,12 @@ enum EmployeeType {
   Seasonal
 }
 
+type RetirementInfo {
+  days: Int!
+  months: Int!
+  years: Int!
+}
+
 type User {
   _id: ID!
   firstName: String!
@@ -31,6 +37,7 @@ type User {
   department: Department!
   employeeType: EmployeeType!
   status: Int!
+  retirementInfo: RetirementInfo!
 }
 
 input UserUpdate {
@@ -59,6 +66,7 @@ input UserInput {
 type Query {
   employeesList(employeeType: EmployeeType): [User!]!
   employeeById(employeeId: ID!): User!
+  employeesListNearingRetirement(employeeType: EmployeeType): [User!]!
 }
 
 type Mutation {
