@@ -20,6 +20,9 @@ export default function NavBar() {
         <li>
           <Link to="/create">Create an Employee</Link>
         </li>
+        <li>
+          <Link to="/employeesNearingRetirement">Employees Nearing Retirement</Link>
+        </li>
       </ul>
     </section>
   );

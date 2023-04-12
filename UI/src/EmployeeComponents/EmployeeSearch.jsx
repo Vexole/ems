@@ -14,10 +14,17 @@ class EmployeeSearch extends React.Component {
     const employeeType = e.target.value;
     this.resetForm();
     const { history } = this.props;
-    history.push({
-      pathname: '/employees',
-      search: employeeType ? `?employeeType=${employeeType}` : '',
-    });
+    if (this.props.isRetirementList) {
+      history.push({
+        pathname: '/employeesNearingRetirement',
+        search: employeeType ? `?employeeType=${employeeType}` : '',
+      });
+    } else {
+      history.push({
+        pathname: '/employees',
+        search: employeeType ? `?employeeType=${employeeType}` : '',
+      });
+    }
   }
 
   filterEmployeeList(e) {

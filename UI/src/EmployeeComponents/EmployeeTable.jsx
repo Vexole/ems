@@ -27,6 +27,7 @@ export default class EmployeeTable extends React.Component {
           handleEmployeeFilter={(key, value) =>
             this.props.handleEmployeeFilter(key, value)
           }
+          isRetirementList = {this.props.isRetirementList}
         />
 
         <table className="employees-list">

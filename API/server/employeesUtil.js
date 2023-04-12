@@ -34,10 +34,11 @@ async function employeesList(_, { employeeType }) {
 async function employeeById(_, { employeeId }) {
   const user = await getUserById(employeeId);
   const joiningYear = new Date(user.dateOfJoining).getFullYear();
-  const currentDate = new Date('2022-07-20');
-  const remainingYear = 65 - user.age - (currentDate.getFullYear() - joiningYear);
+  const currentDate = new Date('2023-07-07');
+  const remainingYear =
+    65 - user.age - (currentDate.getFullYear() - joiningYear);
   const retirementDate = new Date(
-    `${currentDate.getFullYear() + remainingYear}-12-31`,
+    `${currentDate.getFullYear() + remainingYear}-12-31`
   );
 
   const { years, months, days } = getDateDifference(
@@ -75,11 +76,34 @@ async function employeesListNearingRetirement(_, { employeeType }) {
   const filter = {};
   if (employeeType) filter.employeeType = employeeType;
   const usersList = await getUsersList(filter);
+  console.log(filter);
 
   for (const user of usersList) {
-    user.retirementInfo = { days: 0, months: 0, years: 0 };
+    const joiningYear = new Date(user.dateOfJoining).getFullYear();
+    const currentDate = new Date('2023-07-07');
+    const remainingYear = 65 - user.age - (currentDate.getFullYear() - joiningYear);
+
+    const retirementDate = new Date(
+      `${currentDate.getFullYear() + remainingYear}-12-31`,
+    );
+
+    const { years, months, days } = getDateDifference(
+      currentDate,
+      retirementDate,
+    );
+
+    user.retirementInfo = {
+      days: days - 1,
+      months,
+      years,
+    };
   }
-  return usersList;
+
+  return usersList.filter(
+    (user) =>
+      (user.retirementInfo.months <= 6 && user.retirementInfo.years === 0)
+      || (user.retirementInfo.months === 0 && user.retirementInfo.years === 0),
+  );
 }
 
 module.exports = {

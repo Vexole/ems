@@ -17,6 +17,7 @@ const employeeListQuery = `query EmployeesList($employeeType: EmployeeType) {
       status
     }
   }`;
+
 const employeeByIdQuery = `query EmployeeById($employeeId: ID!) {
     employeeById(employeeId: $employeeId) {
       _id firstName lastName age dateOfJoining title department employeeType status retirementInfo {
@@ -37,10 +38,30 @@ const deleteEmployeeByIdQuery = `mutation DeleteEmployee($employeeId: ID!) {
     }
   }`;
 
+const employeeNearingRetirementListQuery = `query EmployeesListNearingRetirement($employeeType: EmployeeType) {
+  employeesListNearingRetirement(employeeType: $employeeType) {
+    _id
+    firstName
+    lastName
+    age
+    dateOfJoining
+    title
+    department
+    employeeType
+    status
+    retirementInfo {
+      days
+      months
+      years
+    }
+  }
+}`;
+
 module.exports = {
   saveEmployeeQuery,
   employeeListQuery,
   employeeByIdQuery,
   updateEmployeeByIdQuery,
   deleteEmployeeByIdQuery,
+  employeeNearingRetirementListQuery,
 };

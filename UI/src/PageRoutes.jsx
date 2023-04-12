@@ -6,6 +6,7 @@ import EmployeeDetails from './EmployeeComponents/EmployeeDetails.jsx';
 import EmployeeDirectory from './EmployeeComponents/EmployeeDirectory.jsx';
 import EmployeeEdit from './EmployeeComponents/EmployeeEdit.jsx';
 import EmployeeDelete from './EmployeeComponents/EmployeeDelete.jsx';
+import EmployeeNearingRetirement from './EmployeeComponents/EmployeeNearingRetirement.jsx';
 
 export default class PageRoutes extends React.Component {
   render() {
@@ -13,6 +14,7 @@ export default class PageRoutes extends React.Component {
       <Switch>
         <Route exact path="/" component={EmployeeDirectory} />
         <Route path="/employees" component={EmployeeDirectory} />
+        <Route path="/employeesNearingRetirement" component={EmployeeNearingRetirement} />
         <Route path="/detail/:id" component={EmployeeDetails} />
         <Route path="/create" component={EmployeeCreate} />
         <Route path="/edit/:id" component={EmployeeEdit} />
