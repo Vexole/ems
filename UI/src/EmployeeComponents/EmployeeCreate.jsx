@@ -29,8 +29,6 @@ export default class EmployeeCreate extends React.Component {
     this.displayToast = this.displayToast.bind(this);
   }
 
-  componentDidMount() {}
-
   resetFormErrors() {
     { /* Change the status of the form to pristine */ }
     this.setState({ hasErrors: false, formErrors: {} });
