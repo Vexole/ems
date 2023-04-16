@@ -15,14 +15,16 @@ import {
   employeeTypeOptions,
   statusOptions,
 } from '../js/selectOptions';
+import CustomToast from '../Utils/Toast.jsx';
 
 export default class EmployeeEdit extends React.Component {
   constructor() {
     super();
-    this.state = { employee: {}, title: '', department: '', status: '' };
+    this.state = { employee: {}, title: '', department: '', status: '' , toastMessage: '', toastVariant:'', showToast: false};
     this.updateEmployee = this.updateEmployee.bind(this);
     this.getEmployeeById = this.getEmployeeById.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
+    this.displayToast = this.displayToast.bind(this);
   }
 
   componentDidMount() {
@@ -39,7 +41,6 @@ export default class EmployeeEdit extends React.Component {
     const data = await graphQLFetch(employeeByIdQuery, vars);
     if (data) {
       const { title, department, status } = data.employeeById;
-
       this.setState({
         employee: data.employeeById,
         title,
@@ -71,9 +72,16 @@ export default class EmployeeEdit extends React.Component {
 
     const data = await graphQLFetch(updateEmployeeByIdQuery, { employee });
     if (data) {
-      alert('Employee Updated');
+      this.displayToast();
       this.getEmployeeById(data.updateEmployee);
     }
+  }
+
+  displayToast() {
+    this.setState({ toastMessage: "Employee updated successfully.", toastVariant: "success", showToast: true });
+    setTimeout(() => {
+      this.setState({ showToast: false });
+    }, 3000);
   }
 
   handleOnChange(e) {
@@ -83,9 +91,11 @@ export default class EmployeeEdit extends React.Component {
   render() {
     const { _id, firstName, lastName, age, dateOfJoining, employeeType } =
       this.state.employee;
+    const { showToast, toastMessage, toastVariant } = this.state;
 
     return (
       <section id="add-employee-container">
+        {showToast && (<CustomToast message={toastMessage} variant={toastVariant} />)}
         <h1 className="section-header">
           Employee Details: {firstName} {lastName}
         </h1>
@@ -156,7 +166,6 @@ export default class EmployeeEdit extends React.Component {
             onChange={this.handleOnChange}
           />
           <span></span>
-
           <ButtonField
             value="Update"
             className="edit-employee-btn col-md-6"

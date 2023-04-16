@@ -13,7 +13,7 @@ import {
 } from '../js/selectOptions';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import "bootstrap/dist/css/bootstrap.min.css";
+import CustomToast from '../Utils/Toast.jsx';
 
 export default class EmployeeCreate extends React.Component {
   constructor() {
@@ -21,11 +21,12 @@ export default class EmployeeCreate extends React.Component {
     this.state = {
       employee: {},
       hasErrors: false,
-      formErrors: { firstName: '', lastName: '', age: '', dateOfJoining: '' },
+      formErrors: { firstName: '', lastName: '', age: '', dateOfJoining: '', toastMessage: '', toastVariant: '', showToast: false },
     };
     this.createEmployee = this.createEmployee.bind(this);
     this.validateFormData = validateFormData.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
+    this.displayToast = this.displayToast.bind(this);
   }
 
   componentDidMount() {}
@@ -43,6 +44,13 @@ export default class EmployeeCreate extends React.Component {
     }));
   }
 
+  displayToast() {
+    this.setState({ toastMessage: "Employee created successfully.", toastVariant: "success", showToast: true });
+    setTimeout(() => {
+      this.setState({ showToast: false });
+    }, 3000);
+  }
+
   handleOnChange(e) {
     this.setState((prev) => ({
       employee: { ...prev.employee, [e.target.name]: e.target.value },
@@ -54,7 +62,7 @@ export default class EmployeeCreate extends React.Component {
     const data = await graphQLFetch(saveEmployeeQuery, { employee });
     try {
       if (data) {
-        alert('Employee Created!');
+        this.displayToast();
         const { history } = this.props;
         history.push({
           pathname: '/employees',
@@ -111,8 +119,10 @@ export default class EmployeeCreate extends React.Component {
     const {
       employee: { firstName, lastName, age, dateOfJoining, title, department, employeeType },
     } = this.state;
+    const {toastMessage, toastVariant, showToast} = this.state;
     return (
       <section id="add-employee-container">
+        {showToast && (<CustomToast message={toastMessage} variant={toastVariant}/>)}
         <h1 className="section-header">Add a New Employee</h1>
         <Form
           name="addEmployee"

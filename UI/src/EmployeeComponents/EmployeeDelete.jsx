@@ -16,12 +16,14 @@ import {
   employeeTypeOptions,
   statusOptions,
 } from '../js/selectOptions';
+import CustomToast from '../Utils/Toast.jsx';
 
 class EmployeeDelete extends React.Component {
   constructor() {
     super();
-    this.state = { employee: {} };
+    this.state = { employee: {}, toastMessage: '', toastVariant: '', showToast: false };
     this.deleteEmployee = this.deleteEmployee.bind(this);
+    this.displayToast = this.displayToast.bind(this);
   }
 
   componentDidMount() {
@@ -40,7 +42,8 @@ class EmployeeDelete extends React.Component {
     }
 
     if (this.state.employee.status === 1) {
-      alert("CAN'T DELETE EMPLOYEE - STATUS ACTIVE");
+      this.setState({toastMessage: "Can't delete employee - Status Active.", toastVariant: 'danger'});
+      this.displayToast();
       return;
     }
 
@@ -49,14 +52,16 @@ class EmployeeDelete extends React.Component {
     });
 
     if (data.deleteEmployee) {
-      alert('Employee Deleted');
+      this.setState({toastMessage: "Employee deleted successfully.", toastVariant: 'success'});
+      this.displayToast();
       const { history } = this.props;
       history.push({
         pathname: '/employees',
         search: '',
       });
     } else {
-      alert("CAN'T DELETE EMPLOYEE - STATUS ACTIVE");
+      this.setState({toastMessage: "Can't delete employee - Status Active.", toastVariant: 'danger'});
+      this.displayToast();
       return;
     }
   }
@@ -74,6 +79,13 @@ class EmployeeDelete extends React.Component {
     }
   }
 
+  displayToast() {
+    this.setState({ showToast: true });
+    setTimeout(() => {
+      this.setState({ showToast: false });
+    }, 3000);
+  }
+
   render() {
     const {
       _id,
@@ -87,8 +99,11 @@ class EmployeeDelete extends React.Component {
       status,
     } = this.state.employee;
 
+    const { showToast, toastMessage, toastVariant } = this.state;
+
     return (
       <section id="add-employee-container">
+        {showToast && (<CustomToast message={toastMessage} variant={toastVariant}/>)}
         <h1 className="section-header">
           Employee Details: {firstName} {lastName}
         </h1>
