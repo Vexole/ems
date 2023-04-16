@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FaEye, FaEdit, FaTrash } from 'react-icons/fa';
 
 { /* Component to display each row for an employee */ }
 export default function EmployeeRow(props) {
@@ -27,9 +28,9 @@ export default function EmployeeRow(props) {
       <td>{employeeType.split(/\.?(?=[A-Z])/).join('-')}</td>
       <td>{status == 1 ? 'Working' : 'Retired'}</td>
       <td>
-        <Link to={`/detail/${_id}`}>View</Link> |{' '}
-        <Link to={`/edit/${_id}`}> Edit</Link> |
-        <Link to={`/delete/${_id}`}> Delete</Link>
+        <Link to={`/detail/${_id}`}> <FaEye className="blue" /> </Link>
+        <Link to={`/edit/${_id}`}> <FaEdit className="green" /> </Link>
+        <Link to={`/delete/${_id}`}> <FaTrash className="red" /> </Link>
       </td>
     </tr>
   );

@@ -9,6 +9,18 @@
   font-size: 16px;
 }
 
+.blue {
+  color: blue;
+}
+
+.green {
+  color: green;
+}
+
+.red {
+  color: red;
+}
+
 html,
 body {
   margin: 0;
@@ -274,6 +286,10 @@ footer a {
   text-align: center;
 }
 
+.quick_links a:hover {
+  color: white;
+}
+
 .recent_posts {
   padding: 8px;
 }
@@ -344,7 +360,7 @@ footer a {
   text-align: center;
   font-size: 30px;
   font-weight: bold;
-  padding-top: 24px;
+  padding: 24px 0 !important;
 }
 
 .employees-list {
