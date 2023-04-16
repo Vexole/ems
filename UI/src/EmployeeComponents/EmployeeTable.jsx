@@ -1,6 +1,8 @@
 import React from 'react';
 import EmployeeRow from './EmployeeRow.jsx';
 import EmployeeSearch from './EmployeeSearch.jsx';
+import Table from 'react-bootstrap/Table';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export default class EmployeeTable extends React.Component {
   render() {
@@ -30,22 +32,25 @@ export default class EmployeeTable extends React.Component {
           isRetirementList = {this.props.isRetirementList}
         />
 
-        <table className="employees-list">
-          <thead>
-            <tr>
-              <th>S.N.</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Age</th>
-              <th>Date of Joining</th>
-              <th>Title</th>
-              <th>Department</th>
-              <th>Employee Type</th>
-              <th>Current Status</th>
-            </tr>
-          </thead>
-          <tbody>{employeesList}</tbody>
-        </table>
+        <div className="container-fluid">
+          <Table striped bordered hover className="employees-list">
+            <thead>
+              <tr>
+                <th>S.N.</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Age</th>
+                <th>Date of Joining</th>
+                <th>Title</th>
+                <th>Department</th>
+                <th>Employee Type</th>
+                <th>Current Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>{employeesList}</tbody>
+          </Table>
+        </div>
       </section>
     );
   }

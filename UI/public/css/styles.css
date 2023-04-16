@@ -25,7 +25,7 @@ img {
 }
 
 a {
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 li {
@@ -38,6 +38,11 @@ h2 {
 
 label {
   margin-bottom: 0;
+}
+
+table thead {
+  background-color:#004689;
+  color: #fff;
 }
 
 tr {
@@ -80,8 +85,9 @@ fieldset {
 .logo {
   vertical-align: middle;
   color: white;
-  font-family: cursive;
   font-size: 1.35rem;
+  margin: 0 !important;
+  font-weight: 700;
 }
 
 .top-nav {
@@ -93,8 +99,7 @@ fieldset {
   border-bottom: 1px solid #e0e5eb;
   box-shadow: 0px 1px 8px #223055;
   color: #fff;
-  height: 50px;
-  padding: 1em;
+  padding: 18px;
 }
 
 .menu {
@@ -161,7 +166,14 @@ fieldset {
 }
 
 .menu a {
-  color: #ffffff;
+  color: #ffff !important;
+  font-size: 18px !important;
+}
+
+.menu a:hover {
+  color: #ffff !important;
+  font-weight: 600;
+  text-decoration: underline !important;
 }
 
 .hero {
@@ -190,7 +202,6 @@ fieldset {
 footer {
   background: #004689;
   color: #ffffff;
-  margin-top: 24px;
 }
 
 footer h1 {
@@ -211,8 +222,7 @@ footer li {
 
 footer > p {
   text-align: center;
-  padding: 30px 0;
-  padding-top: 8px;
+  padding: 16px 0;
   margin-bottom: 0;
 }
 
@@ -236,6 +246,21 @@ footer a {
 
 .social_media {
   margin-top: 24px;
+}
+
+#footer h5 {
+  font-weight: 600;
+  text-decoration: underline !important;
+}
+
+#footer ul {
+  padding: 0;
+}
+
+.copyright {
+  background-color: #ececec;
+  color: #004689;
+  font-weight: 600 !important;
 }
 
 .social_media div img {
@@ -301,7 +326,7 @@ footer a {
 /* Employees List */
 #employee-list-container {
   padding: 48px 0;
-  background-color: azure;
+  /* background-color: azure; */
   margin: auto;
   min-height: 75vh;
 }
@@ -332,14 +357,16 @@ footer a {
 #add-employee-container {
   margin: auto;
   padding: 48px 0;
-  background-color: #cdcdcda0;
+  background-color: #efefefa0;
 }
 
 .section-header {
   text-align: center;
   font-weight: bold;
-  font-size: 2rem;
+  font-size: 2.5rem;
   margin: 16px 0;
+  text-transform: uppercase;
+  color: #004689;
 }
 
 .add-employee-form {
@@ -362,6 +389,8 @@ footer a {
   grid-column: 1/3;
   justify-self: center;
   color: white;
+  margin-top: 24px;
+  background-color:#004689 !important;
 }
 
 .edit-employee-btn {
@@ -378,7 +407,7 @@ footer a {
 
 @media screen and (min-width: 768px) {
   .hero {
-    height: 95vh;
+    height: 65vh;
   }
 
   footer hr {
@@ -394,10 +423,6 @@ footer a {
     justify-content: center;
     align-items: start;
     gap: 30px;
-  }
-
-  footer {
-    padding: 8px;
   }
 
   .recent_posts {
