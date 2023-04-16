@@ -1,5 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+import Form from 'react-bootstrap/Form';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 class EmployeeSearch extends React.Component {
   constructor() {
@@ -50,9 +52,9 @@ class EmployeeSearch extends React.Component {
     const employeeType = params.get('employeeType');
     return (
       <>
-        <form className="search-form-container">
-          <h3>Employee Type: </h3>
-          <select
+        <Form className="search-form-container">
+          <Form.Label>Employee Type: </Form.Label>
+          <Form.Select
             onChange={this.onChangeEmployeeType}
             defaultValue={employeeType ?? ''}
           >
@@ -61,16 +63,16 @@ class EmployeeSearch extends React.Component {
             <option value="PartTime">Part-Time</option>
             <option value="Contract">Contract</option>
             <option value="Seasonal">Seasonal</option>
-          </select>
-        </form>
+          </Form.Select>
+        </Form>
         <div className="filter-form-container">
-          <h3>Search By: </h3>
-          <form
+          <Form
             className="filter-form"
             name="filterForm"
             onSubmit={this.filterEmployeeList}
-          >
-            <select
+            >
+            <Form.Label>Search By: </Form.Label>
+            <Form.Select
               name="fitlerParameter"
               id="fitlerParameter"
               onChange={this.resetForm}
@@ -80,14 +82,14 @@ class EmployeeSearch extends React.Component {
               <option value="title">Title</option>
               <option value="department">Department</option>
               <option value="employeeType">Employee Type</option>
-            </select>
-            <input
+            </Form.Select>
+            <Form.Control
               type="text"
               name="filterKeyword"
               id="filterKeyword"
               onChange={this.filterEmployeeList}
             />
-          </form>
+          </Form>
         </div>
       </>
     );

@@ -8,7 +8,11 @@ module.exports = {
     path: path.resolve(__dirname, 'public'),
   },
   module: {
-    rules: [{ test: /\.jsx?$/, exclude: /node_modules/, use: 'babel-loader' }],
+    rules: [{ test: /\.jsx?$/, exclude: /node_modules/, use: 'babel-loader' },
+    {
+      test: /\.(sass|less|css)$/,
+      use: ["style-loader", "css-loader", 'sass-loader'],
+    }],
   },
   optimization: {
     splitChunks: { name: 'vendor', chunks: 'all' },

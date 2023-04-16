@@ -162,7 +162,7 @@ class EmployeeDelete extends React.Component {
 
           <ButtonField
             value="Delete"
-            className="delete-employee-btn"
+            className="delete-employee-btn col-md-6"
             onClick={this.deleteEmployee}
           />
         </form>

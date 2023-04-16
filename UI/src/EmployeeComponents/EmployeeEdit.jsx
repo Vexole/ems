@@ -159,7 +159,7 @@ export default class EmployeeEdit extends React.Component {
 
           <ButtonField
             value="Update"
-            className="edit-employee-btn"
+            className="edit-employee-btn col-md-6"
             onClick={this.updateEmployee}
           />
         </form>

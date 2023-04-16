@@ -11,6 +11,9 @@ import {
   departmentOptions,
   employeeTypeOptions,
 } from '../js/selectOptions';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export default class EmployeeCreate extends React.Component {
   constructor() {
@@ -111,12 +114,12 @@ export default class EmployeeCreate extends React.Component {
     return (
       <section id="add-employee-container">
         <h1 className="section-header">Add a New Employee</h1>
-        <form
+        <Form
           name="addEmployee"
           onSubmit={this.createEmployee}
           className="add-employee-form"
         >
-          <label htmlFor="firstName">First Name</label>
+          <Form.Label htmlFor="firstName">First Name</Form.Label>
           <TextField
             name="firstName"
             id="firstName"
@@ -185,8 +188,8 @@ export default class EmployeeCreate extends React.Component {
             {this.hasErrors && this.formErrors.employeeType}
           </p>
 
-          <input type="submit" value="Submit" className="create-employee-btn" />
-        </form>
+          <Button type="submit" className="create-employee-btn col-md-6">Submit</Button>
+        </Form>
       </section>
     );
   }

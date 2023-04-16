@@ -1,4 +1,6 @@
 import React from 'react';
+import Button from 'react-bootstrap/Button';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export default class ButtonField extends React.Component {
   constructor(props) {
@@ -8,6 +10,6 @@ export default class ButtonField extends React.Component {
 
   render() {
     const { value } = this.state;
-    return <input type="button" {...this.props} value={value} />;
+    return <Button type="button" {...this.props} value={value}>{value}</Button>;
   }
 }
