@@ -1,4 +1,6 @@
 import React from 'react';
+import Form from 'react-bootstrap/Form';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export default class NumberField extends React.Component {
   constructor(props) {
@@ -23,7 +25,7 @@ export default class NumberField extends React.Component {
   render() {
     const { value } = this.state;
     return (
-      <input
+      <Form.Control
         type="number"
         {...this.props}
         value={value}

@@ -1,4 +1,6 @@
 import React from 'react';
+import Form from 'react-bootstrap/Form';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export default class SelectField extends React.Component {
   constructor(props) {
@@ -18,9 +20,9 @@ export default class SelectField extends React.Component {
     });
 
     return (
-      <select value={value} onChange={this.onChange} {...this.props}>
+      <Form.Select value={value} onChange={this.onChange} {...this.props}>
         {options}
-      </select>
+      </Form.Select>
     );
   }
 }
