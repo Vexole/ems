@@ -1,4 +1,6 @@
 import React from 'react';
+import Form from 'react-bootstrap/Form';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export default class TextField extends React.Component {
   constructor(props) {
@@ -21,7 +23,7 @@ export default class TextField extends React.Component {
   render() {
     const { value } = this.state;
     return (
-      <input
+      <Form.Control
         type="text"
         {...this.props}
         value={value}

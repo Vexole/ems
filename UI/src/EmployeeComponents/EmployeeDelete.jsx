@@ -17,6 +17,8 @@ import {
   statusOptions,
 } from '../js/selectOptions';
 import CustomToast from '../Utils/Toast.jsx';
+import Form from 'react-bootstrap/Form';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 class EmployeeDelete extends React.Component {
   constructor() {
@@ -107,28 +109,28 @@ class EmployeeDelete extends React.Component {
         <h1 className="section-header">
           Employee Details: {firstName} {lastName}
         </h1>
-        <form name="updateEmployee" className="add-employee-form">
+        <Form name="updateEmployee" className="add-employee-form">
           <input type="hidden" name="_id" value={_id || ''} />
 
-          <label htmlFor="firstName">First Name</label>
+          <Form.Label htmlFor="firstName">First Name</Form.Label>
           {firstName && (
             <TextField disabled="disabled" name="firstName" value={firstName} />
           )}
           <span></span>
 
-          <label htmlFor="lastName">Last Name</label>
+          <Form.Label htmlFor="lastName">Last Name</Form.Label>
           {lastName && (
             <TextField disabled="disabled" name="lastName" value={lastName} />
           )}
           <span></span>
 
-          <label htmlFor="age">Age</label>
+          <Form.Label htmlFor="age">Age</Form.Label>
           {age && (
             <NumberField disabled="disabled" name="age" defaultValue={age} />
           )}
           <span></span>
 
-          <label htmlFor="dateOfJoining">Date of Joining</label>
+          <Form.Label htmlFor="dateOfJoining">Date of Joining</Form.Label>
           {dateOfJoining && (
             <DateField
               name="dateOfJoining"
@@ -139,7 +141,7 @@ class EmployeeDelete extends React.Component {
           )}
           <span></span>
 
-          <label htmlFor="title">Title</label>
+          <Form.Label htmlFor="title">Title</Form.Label>
           <SelectField
             value={title}
             disabled="disabled"
@@ -148,7 +150,7 @@ class EmployeeDelete extends React.Component {
           />
           <span></span>
 
-          <label htmlFor="department">Department</label>
+          <Form.Label htmlFor="department">Department</Form.Label>
           <SelectField
             value={department}
             disabled="disabled"
@@ -157,7 +159,7 @@ class EmployeeDelete extends React.Component {
           />
           <span></span>
 
-          <label htmlFor="employeeType">Employee Type</label>
+          <Form.Label htmlFor="employeeType">Employee Type</Form.Label>
           <SelectField
             value={employeeType}
             disabled="disabled"
@@ -166,7 +168,7 @@ class EmployeeDelete extends React.Component {
           />
           <span></span>
 
-          <label htmlFor="status">Status</label>
+          <Form.Label htmlFor="status">Status</Form.Label>
           <SelectField
             value={status == 0 ? 'Retired' : 'Working'}
             disabled="disabled"
@@ -180,7 +182,7 @@ class EmployeeDelete extends React.Component {
             className="delete-employee-btn col-md-6"
             onClick={this.deleteEmployee}
           />
-        </form>
+        </Form>
       </section>
     );
   }

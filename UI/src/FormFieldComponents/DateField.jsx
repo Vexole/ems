@@ -1,4 +1,6 @@
 import React from 'react';
+import Form from 'react-bootstrap/Form';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function displayFormat(date) {
   return date != null ? date.split('T')[0] : '';
@@ -53,7 +55,7 @@ export default class DateField extends React.Component {
     const { value: origValue, onValidityChange, ...props } = this.props;
     const displayValue = focused || !valid ? value : displayFormat(origValue);
     return (
-      <input
+      <Form.Control
         {...props}
         type="text"
         size="20"
