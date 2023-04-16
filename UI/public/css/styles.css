@@ -48,9 +48,9 @@ h2 {
   margin: 0;
 }
 
-label {
-  margin-bottom: 0;
-}
+label, .form-label {
+  margin-bottom: 0 !important;
+} 
 
 table thead {
   background-color:#004689;
@@ -354,6 +354,11 @@ footer a {
   align-items: center;
   gap: 36px;
   margin: 36px;
+}
+
+.searchby-label {
+  width: 100%;
+  align-self: center;
 }
 
 .no-records {

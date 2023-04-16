@@ -71,7 +71,7 @@ class EmployeeSearch extends React.Component {
             name="filterForm"
             onSubmit={this.filterEmployeeList}
             >
-            <Form.Label>Search By: </Form.Label>
+            <Form.Label className='searchby-label'>Search By: </Form.Label>
             <Form.Select
               name="fitlerParameter"
               id="fitlerParameter"
