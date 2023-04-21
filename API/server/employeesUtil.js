@@ -17,12 +17,12 @@ const {
  */
 function getDateDifference(currentDate, retirementDate) {
   const msPerDay = 24 * 60 * 60 * 1000;
-  const diffInMs = retirementDate.getTime() - currentDate.getTime();
-  const diffInDays = Math.ceil(diffInMs / msPerDay);
+  const diffInMs = retirementDate.getTime() - currentDate.getTime() - msPerDay;
+  const diffInDays = Math.floor(diffInMs / msPerDay);
   let years = Math.floor(diffInDays / 365);
   const remainingDays = diffInDays % 365;
   let months = Math.floor(remainingDays / 31);
-  let days = remainingDays % 31;
+  let days = Math.floor(remainingDays % 31);
 
   if (days < 0 || months < 0 || years < 0) {
     days = 0;
@@ -49,7 +49,6 @@ async function employeeById(_, { employeeId }) {
   const joiningDate = new Date(user.dateOfJoining);
   const joiningYear = joiningDate.getFullYear();
   const currentDate = new Date(new Date().toISOString().split('T')[0]);
-  // const currentDate = new Date('2022-07-20');
   const remainingYear =
     65 - user.age - (currentDate.getFullYear() - joiningYear);
   let retirementDate = new Date(user.dateOfJoining);
@@ -60,16 +59,6 @@ async function employeeById(_, { employeeId }) {
     retirementDate.setDate(retirementDate.getDate() - 1)
   );
   let { years, months, days } = getDateDifference(currentDate, retirementDate);
-  if (
-    (+joiningDate.toISOString().split('-')[1] +
-      +retirementDate.toISOString().split('-')[1]) %
-      2 !==
-    0
-  ) {
-    if (days > 0) {
-      days -= 1;
-    }
-  }
 
   user.retirementInfo = {
     days,
@@ -127,17 +116,6 @@ async function employeesListNearingRetirement(_, { employeeType }) {
       currentDate,
       retirementDate
     );
-
-    if (
-      (+joiningDate.toISOString().split('-')[1] +
-        +retirementDate.toISOString().split('-')[1]) %
-        2 !==
-      0
-    ) {
-      if (days > 0) {
-        days -= 1;
-      }
-    }
 
     user.retirementInfo = {
       days,
