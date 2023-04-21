@@ -1,3 +1,6 @@
+/* eslint-disable comma-dangle */
+/* eslint-disable operator-linebreak */
+/* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable no-restricted-syntax */
 const {
   insertUser,
@@ -7,20 +10,27 @@ const {
   deleteUser,
 } = require('./db');
 
+/*
+ * Get the difference between two dates provided and
+ * return the difference in days, months, and years.
+ */
 function getDateDifference(currentDate, retirementDate) {
   retirementDate.setHours(0, 0, 0, 0);
   currentDate.setHours(0, 0, 0, 0);
   const msPerDay = 24 * 60 * 60 * 1000;
-  const diffInMs = retirementDate.getTime() - currentDate.getTime();
+  const diffInMs = retirementDate.getTime() - msPerDay - currentDate.getTime();
   const diffInDays = Math.floor(diffInMs / msPerDay);
-  const years = Math.floor(diffInDays / 365);
+  let years = Math.floor(diffInDays / 365);
   const remainingDays = diffInDays % 365;
-  const months = Math.floor(remainingDays / 31);
+  let months = Math.floor(remainingDays / 31);
   let days = remainingDays % 31;
 
-  if (days !== 0) {
-    days -= 1;
+  if (days < 0 || months < 0 || years < 0) {
+    days = 0;
+    months = 0;
+    years = 0;
   }
+
   return { years, months, days };
 }
 
@@ -37,17 +47,21 @@ async function employeesList(_, { employeeType }) {
 
 async function employeeById(_, { employeeId }) {
   const user = await getUserById(employeeId);
-  const joiningYear = new Date(user.dateOfJoining).getFullYear();
+  const joiningDate = new Date(user.dateOfJoining);
+  const joiningYear = joiningDate.getFullYear();
   const currentDate = new Date();
   const remainingYear =
     65 - user.age - (currentDate.getFullYear() - joiningYear);
-  const retirementDate = new Date(
-    `${currentDate.getFullYear() + remainingYear}-12-31`
+  let retirementDate = new Date(user.dateOfJoining);
+  retirementDate = new Date(
+    retirementDate.setFullYear(currentDate.getFullYear() + remainingYear)
   );
-
+  retirementDate = new Date(
+    retirementDate.setDate(retirementDate.getDate() - 1)
+  );
   const { years, months, days } = getDateDifference(
     currentDate,
-    retirementDate,
+    retirementDate
   );
 
   user.retirementInfo = {
@@ -64,10 +78,12 @@ async function saveEmployee(_, { employee }) {
   return savedEmployee;
 }
 
+// Update the employee detail
 async function updateEmployee(_, { employee }) {
   return updateUser(employee);
 }
 
+// Delete the employee detail
 async function deleteEmployee(_, { employeeId }) {
   const employee = await getUserById(employeeId);
   if (employee.status === 1) {
@@ -76,24 +92,33 @@ async function deleteEmployee(_, { employeeId }) {
   return deleteUser(employeeId);
 }
 
+/*
+ * Get list of all employees nearing retirement
+ * where difference between current date and retirement date is < 6 months
+ */
 async function employeesListNearingRetirement(_, { employeeType }) {
   const filter = {};
   if (employeeType) filter.employeeType = employeeType;
   const usersList = await getUsersList(filter);
-  console.log(filter);
 
   for (const user of usersList) {
-    const joiningYear = new Date(user.dateOfJoining).getFullYear();
+    const joiningDate = new Date(user.dateOfJoining);
+    const joiningYear = joiningDate.getFullYear();
     const currentDate = new Date();
-    const remainingYear = 65 - user.age - (currentDate.getFullYear() - joiningYear);
+    const remainingYear =
+      65 - user.age - (currentDate.getFullYear() - joiningYear);
 
-    const retirementDate = new Date(
-      `${currentDate.getFullYear() + remainingYear}-12-31`,
+    let retirementDate = new Date(user.dateOfJoining);
+    retirementDate = new Date(
+      retirementDate.setFullYear(currentDate.getFullYear() + remainingYear)
+    );
+    retirementDate = new Date(
+      retirementDate.setDate(retirementDate.getDate() - 1)
     );
 
     const { years, months, days } = getDateDifference(
       currentDate,
-      retirementDate,
+      retirementDate
     );
 
     user.retirementInfo = {
@@ -103,10 +128,20 @@ async function employeesListNearingRetirement(_, { employeeType }) {
     };
   }
 
-  return usersList.filter(
+  const filteredUsers = usersList.filter(
     (user) =>
-      (user.retirementInfo.months <= 6 && user.retirementInfo.years === 0)
-      || (user.retirementInfo.months === 0 && user.retirementInfo.years === 0),
+      (user.retirementInfo.months <= 6 && user.retirementInfo.years === 0) ||
+      (user.retirementInfo.months === 0 && user.retirementInfo.years === 0)
+  );
+
+  // If user has already retired, set the difference in days, months, years to 0
+  return filteredUsers.filter(
+    (user) =>
+      !(
+        user.retirementInfo.months === 0 &&
+        user.retirementInfo.years === 0 &&
+        user.retirementInfo.days === 0
+      )
   );
 }
 

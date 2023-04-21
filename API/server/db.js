@@ -55,6 +55,7 @@ async function insertUser(argUser) {
   return savedIssue;
 }
 
+// Update a user details based on the user id
 async function updateUser(argUser) {
   const updatedUser = await User.findByIdAndUpdate(argUser._id, argUser);
   return updatedUser._id;
@@ -65,10 +66,12 @@ async function getUsersList(filter) {
   return User.find(filter);
 }
 
+// Get user based on the id from the db
 async function getUserById(argUserId) {
   return User.findById(argUserId);
 }
 
+// Delete the user from the db
 async function deleteUser(argUserId) {
   const deletedUser = await User.findByIdAndDelete(argUserId);
   return deletedUser._id;
